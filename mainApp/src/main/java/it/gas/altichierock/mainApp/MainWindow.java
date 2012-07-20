@@ -1,6 +1,7 @@
 package it.gas.altichierock.mainApp;
 
 import it.gas.altichierock.add.AddWindow;
+import it.gas.altichierock.insert.InsertWindow;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -60,7 +61,8 @@ public class MainWindow extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource().equals(btnInsert)) {
-			System.out.println("insert");
+			//System.out.println("insert");
+			new InsertWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnAdd)) {
 			//System.out.println("add");
 			new AddWindow(this).setVisible(true);

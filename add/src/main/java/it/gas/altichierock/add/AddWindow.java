@@ -32,7 +32,7 @@ public class AddWindow extends JDialog {
 	}
 	
 	private void initComponents() {
-		setLayout(new MigLayout("fill, wrap 1, debug"));
+		setLayout(new MigLayout("fill, wrap 1"));
 		
 		//draw'n'stuff
 		tblMenu = new JTable();
@@ -51,7 +51,7 @@ public class AddWindow extends JDialog {
 		pnlAdd.add(btnAdd);
 		
 		add(new JScrollPane(tblMenu), "push, grow");
-		add(chkEnabled, "split 3, grow");
+		add(chkEnabled, "split 2, grow");
 		add(btnRefresh);
 		add(pnlAdd, "grow");
 	}
