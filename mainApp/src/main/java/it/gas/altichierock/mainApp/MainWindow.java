@@ -1,5 +1,7 @@
 package it.gas.altichierock.mainApp;
 
+import it.gas.altichierock.add.AddWindow;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,9 +23,9 @@ public class MainWindow extends JFrame implements ActionListener {
 		super();
 		setTitle(Constants.TITLE);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setLayout(new MigLayout());
 		initComponents(); //drawing code
 		pack();
+		setLocationRelativeTo(null);
 		
 		//working code
 		btnInsert.addActionListener(this);
@@ -33,6 +35,8 @@ public class MainWindow extends JFrame implements ActionListener {
 	}
 	
 	private void initComponents() {
+		setLayout(new MigLayout());
+
 		//draw'n'stuff
 		btnInsert = new JButton("Make a new order!");
 		btnAdd = new JButton("+");
@@ -58,7 +62,8 @@ public class MainWindow extends JFrame implements ActionListener {
 		if (arg0.getSource().equals(btnInsert)) {
 			System.out.println("insert");
 		} else if (arg0.getSource().equals(btnAdd)) {
-			System.out.println("add");
+			//System.out.println("add");
+			new AddWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnOrder)) {
 			System.out.println("order");
 		} else if (arg0.getSource().equals(btnDisplay)) {
