@@ -1,6 +1,9 @@
 package it.gas.altichierock.insert;
 
+import it.gas.altichierock.database.Item;
+
 import java.awt.Frame;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -9,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
@@ -20,6 +24,8 @@ public class InsertWindow extends JDialog {
 	private JButton btnInsert, btnDelete, btnClear, btnOKNew;
 	private JTextField txtNumber;
 	
+	private InsertLogic logic;
+	
 	public InsertWindow(Frame w) {
 		super(w, true);
 		setTitle("Menu creator");
@@ -27,6 +33,8 @@ public class InsertWindow extends JDialog {
 		initComponents(); //drawing code
 		setSize(500, 300);
 		setLocationRelativeTo(w);
+		
+		logic = new InsertLogic();
 	}
 
 	private void initComponents() {
@@ -49,6 +57,28 @@ public class InsertWindow extends JDialog {
 		add(new JLabel("Numero ordine:"), "split 2");
 		add(txtNumber);
 		add(btnOKNew, "grow");
+	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible == true)
+			new MenuReloader().execute();
+		super.setVisible(visible);
+	}
+	
+	private class MenuReloader extends SwingWorker<Void, Void> {
+
+		@Override
+		protected Void doInBackground() throws Exception {
+			logic.refresh();
+			return null;
+		}
+		
+		@Override
+		protected void done() {
+			cmbInsert.setModel(new InsertComboModel(logic.getMenu()));
+		}
+		
 	}
 
 }

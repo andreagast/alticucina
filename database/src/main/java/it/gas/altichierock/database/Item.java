@@ -44,5 +44,10 @@ public class Item implements Serializable {
 	public void setDeprecated(boolean deprecated) {
 		this.deprecated = deprecated;
 	}
+	
+	@Override
+	public String toString() {
+		return getDescription();
+	}
 
 }
