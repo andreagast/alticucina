@@ -3,7 +3,8 @@ package it.gas.altichierock.insert;
 import it.gas.altichierock.database.Item;
 
 import java.awt.Frame;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,10 +15,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
-
 import net.miginfocom.swing.MigLayout;
 
-public class InsertWindow extends JDialog {
+public class InsertWindow extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JComboBox cmbInsert;
 	private JTable tblOrder;
@@ -25,16 +25,23 @@ public class InsertWindow extends JDialog {
 	private JTextField txtNumber;
 	
 	private InsertLogic logic;
+	private Container container;
+	private InsertTableModel model;
 	
 	public InsertWindow(Frame w) {
 		super(w, true);
 		setTitle("Menu creator");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		initComponents(); //drawing code
+		initListeners(); //listeners
 		setSize(500, 300);
 		setLocationRelativeTo(w);
 		
 		logic = new InsertLogic();
+		container = new Container();
+		
+		model = new InsertTableModel(container);
+		tblOrder.setModel(model);
 	}
 
 	private void initComponents() {
@@ -59,6 +66,10 @@ public class InsertWindow extends JDialog {
 		add(btnOKNew, "grow");
 	}
 	
+	private void initListeners() {
+		btnInsert.addActionListener(this);
+	}
+	
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible == true)
@@ -79,6 +90,15 @@ public class InsertWindow extends JDialog {
 			cmbInsert.setModel(new InsertComboModel(logic.getMenu()));
 		}
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource() == btnInsert) {
+			Item i = (Item) cmbInsert.getSelectedItem();
+			container.addRecord(i);
+			model.fireTableDataChanged();
+		}
 	}
 
 }
