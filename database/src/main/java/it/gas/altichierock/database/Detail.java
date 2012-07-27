@@ -14,15 +14,15 @@ public class Detail implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int _id;
+	private int id;
 	private Item itemId;
 	@Column(nullable = false)
 	private int quantity;
-	public int get_id() {
-		return _id;
+	public int getId() {
+		return id;
 	}
-	public void set_id(int _id) {
-		this._id = _id;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public Item getItemId() {
 		return itemId;
