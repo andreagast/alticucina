@@ -16,6 +16,8 @@ public class InsertTableModel extends AbstractTableModel {
 		case 0:
 			return String.class;
 		case 1:
+			return Float.class;
+		case 2:
 			return Integer.class;
 		default:
 			return Object.class;
@@ -28,6 +30,8 @@ public class InsertTableModel extends AbstractTableModel {
 		case 0:
 			return "Description";
 		case 1:
+			return "Price";
+		case 2:
 			return "Quantity";
 		default:
 			return "NaN";
@@ -36,14 +40,14 @@ public class InsertTableModel extends AbstractTableModel {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		if (column == 1)
+		if (column == 2)
 			return true;
 		return false;
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
@@ -56,11 +60,22 @@ public class InsertTableModel extends AbstractTableModel {
 		switch (arg1) {
 		case 0: //description
 			return container.getItem(arg0).getDescription();
-		case 1: //quantity
+		case 1: //price
+			return container.getItem(arg0).getPrice();
+		case 2: //quantity
 			return container.getQuantity(arg0);
 		default:
 			return new Object();
 		}
+	}
+	
+	@Override
+	public void setValueAt(Object value, int row, int col) {
+		if (col != 2)
+			return;
+		System.out.println("row " + row + " col " + col + " value " + value);
+		container.setQuantity(container.getItem(row), (Integer) value);
+		fireTableDataChanged();
 	}
 
 }

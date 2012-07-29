@@ -46,6 +46,10 @@ public class Container {
 		records = new ArrayList<Record>();
 	}
 	
+	public void remove(int pos) {
+		records.remove(pos);
+	}
+	
 	private class Record {
 		private Item item;
 		private int quantity;
@@ -61,5 +65,15 @@ public class Container {
 		public void setQuantity(int quantity) {
 			this.quantity = quantity;
 		}
+	}
+	
+	public float getSubtotal() {
+		float price = 0;
+		for (int i = 0; i < records.size(); i++) {
+			Record r = records.get(i);
+			float sub = r.getItem().getPrice() * r.getQuantity();
+			price += sub;
+		}
+		return price;
 	}
 }
