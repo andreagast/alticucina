@@ -1,18 +1,24 @@
 package it.gas.altichierock.insert;
 
+import it.gas.altichierock.database.Detail;
 import it.gas.altichierock.database.Item;
+import it.gas.altichierock.database.OrderTicket;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
@@ -25,9 +31,11 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 	private static final long serialVersionUID = 1L;
 	private JComboBox cmbInsert;
 	private JTable tblOrder;
-	private JButton btnInsert, btnDelete, btnClear, btnOKNew;
-	private JTextField txtNumber;
+	private JButton btnInsert, btnDelete, btnClear, btnMake;
+	//private JTextField txtNumber;
 	private JLabel lblSubtotal;
+	
+	private JTextArea txtNote;
 	
 	private InsertLogic logic;
 	private Container container;
@@ -61,12 +69,15 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 		btnInsert = new JButton("+");
 		btnDelete = new JButton("Delete");
 		btnClear = new JButton("Clear");
-		btnOKNew = new JButton("OK"); //change to "new" when the order is saved
-		txtNumber = new JTextField();
+		btnMake = new JButton("Make it!");
 		lblSubtotal = new JLabel();
+		txtNote = new JTextArea();
 		
 		lblSubtotal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSubtotal.setText("0.00");
+		
+		txtNote.setLineWrap(true);
+		txtNote.setWrapStyleWord(true);
 		
 		add(cmbInsert, "pushx, growx");
 		add(btnInsert, "growx");
@@ -78,18 +89,40 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 		add(new JLabel("Subtotal:"));
 		add(lblSubtotal);
 		
-		add(new JLabel("Numero ordine:"), "split 2");
-		add(txtNumber);
-		add(btnOKNew, "grow");
+		add(new JScrollPane(txtNote), "grow");
+		add(btnMake, "grow");
 	}
 	
 	private void initListeners() {
 		btnInsert.addActionListener(this);
 		btnDelete.addActionListener(this);
 		btnClear.addActionListener(this);
-		btnOKNew.addActionListener(this);
+		btnMake.addActionListener(this);
 		
 		model.addTableModelListener(this);
+	}
+	
+	private void lock(boolean b) {
+		cmbInsert.setEnabled(!b);
+		tblOrder.setEnabled(!b);
+		btnInsert.setEnabled(!b);
+		btnDelete.setEnabled(!b);
+		btnClear.setEnabled(!b);
+		btnMake.setEnabled(!b);
+		lblSubtotal.setEnabled(!b);
+		txtNote.setEnabled(!b);
+	}
+	
+	private void reset() {
+		//order table
+		container.reset();
+		model.fireTableDataChanged();
+		//notes
+		txtNote.setText("");
+	}
+	
+	private void showMessage(String str) {
+		JOptionPane.showMessageDialog(this, str);
 	}
 	
 	@Override
@@ -113,6 +146,42 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 		}
 		
 	}
+	
+	private class OrderSaver extends SwingWorker<Integer, Void> {
+
+		@Override
+		protected Integer doInBackground() throws Exception {
+			OrderTicket o = new OrderTicket();
+			o.setCreated(Calendar.getInstance().getTime());
+			o.setNote(txtNote.getText());
+			List<Detail> l = new ArrayList<Detail>();
+			for (int i = 0; i < container.getSize(); i++) {
+				Detail d = new Detail();
+				d.setItemId(container.getItem(i));
+				d.setQuantity(container.getQuantity(i));
+				l.add(d);
+			}
+			o.setDetail(l);
+			
+			logic.save(o);
+			
+			System.out.println("ID: " + o.getId());
+			return o.getId();
+		}
+		
+		@Override
+		protected void done() {
+			try {
+				int id = get();
+				showMessage("Order ID: " + id);
+				reset();
+			} catch (Exception e) { 
+				showMessage(e.getMessage());
+			}
+			lock(false);
+		}
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -129,6 +198,9 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 				container.remove(row);
 				model.fireTableDataChanged();
 			}
+		} else if (arg0.getSource() == btnMake) {
+			lock(true);
+			new OrderSaver().execute();
 		}
 	}
 

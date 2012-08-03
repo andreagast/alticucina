@@ -6,7 +6,7 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>it.gas.altichierock.database.Detail</class>
 		<class>it.gas.altichierock.database.Item</class>
-		<class>it.gas.altichierock.database.Order</class>
+		<class>it.gas.altichierock.database.OrderTicket</class>
 		<properties>
 		  <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
 		  <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/altichierock;create=true"/>
