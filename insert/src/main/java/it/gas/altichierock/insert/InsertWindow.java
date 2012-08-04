@@ -152,7 +152,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 		@Override
 		protected Integer doInBackground() throws Exception {
 			OrderTicket o = new OrderTicket();
-			o.setCreated(Calendar.getInstance().getTime());
+			o.getId().setCreated(Calendar.getInstance().getTime());
 			o.setNote(txtNote.getText());
 			List<Detail> l = new ArrayList<Detail>();
 			for (int i = 0; i < container.getSize(); i++) {
@@ -166,7 +166,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 			logic.save(o);
 			
 			System.out.println("ID: " + o.getId());
-			return o.getId();
+			return o.getId().getId();
 		}
 		
 		@Override

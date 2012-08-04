@@ -35,7 +35,7 @@ public class InsertLogic {
 		TypedQuery<Integer> q = em.createQuery("SELECT MAX(i.id) FROM OrderTicket i WHERE i.created = CURRENT_DATE", Integer.class);
 		int max = q.getSingleResult();
 		System.out.println("MAX->" + max);
-		o.setId(max+1);
+		o.getId().setId(max+1);
 		//persist every child
 		for (int i = 0; i < o.getDetail().size(); i++)
 			em.persist(o.getDetail().get(i));

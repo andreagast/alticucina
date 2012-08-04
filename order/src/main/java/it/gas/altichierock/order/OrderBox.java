@@ -65,7 +65,7 @@ public class OrderBox extends JComponent implements ActionListener {
 	
 	public int getId() {
 		if (order != null)
-			return order.getId();
+			return order.getId().getId();
 		return -1;
 	}
 	
