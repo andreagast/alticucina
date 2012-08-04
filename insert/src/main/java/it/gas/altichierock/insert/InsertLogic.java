@@ -20,7 +20,7 @@ public class InsertLogic {
 	}
 	
 	public void refresh() {
-		TypedQuery<Item> q = handler.getEntityManager().createQuery("SELECT i FROM Item i ORDER BY i.id", Item.class);
+		TypedQuery<Item> q = handler.getEntityManager().createNamedQuery("item.ordered", Item.class);
 		menu = q.getResultList();
 	}
 	
@@ -32,7 +32,7 @@ public class InsertLogic {
 		handler.getTransaction().begin();
 		EntityManager em = handler.getEntityManager();
 		//retrieve the highest id used
-		TypedQuery<Integer> q = em.createQuery("SELECT MAX(i.id) FROM OrderTicket i WHERE i.created = CURRENT_DATE", Integer.class);
+		TypedQuery<Integer> q = em.createNamedQuery("order.maxidtoday", Integer.class);
 		int max = q.getSingleResult();
 		System.out.println("MAX->" + max);
 		o.getId().setId(max+1);

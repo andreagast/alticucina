@@ -21,7 +21,7 @@ public class OrderLogic {
 	}
 	
 	public List<OrderTicket> getNonCompletedOrders() {
-		TypedQuery<OrderTicket> q = em.createQuery("SELECT o FROM OrderTicket o WHERE o.completed = FALSE", OrderTicket.class);
+		TypedQuery<OrderTicket> q = em.createNamedQuery("order.notcomplete", OrderTicket.class);
 		return q.getResultList();
 	}
 	

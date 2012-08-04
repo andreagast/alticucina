@@ -16,7 +16,7 @@ public class AddLogic {
 	}
 
 	public List<Item> getItems() {
-		TypedQuery<Item> q = em.createQuery("SELECT i FROM Item i ORDER BY i.id", Item.class);
+		TypedQuery<Item> q = em.createNamedQuery("item.ordered", Item.class);
 		return q.getResultList();
 	}
 	
@@ -30,8 +30,8 @@ public class AddLogic {
 	}
 	
 	public void changeEnabled(int id, boolean b) {
-		TypedQuery<Item> q = em.createQuery("SELECT i FROM Item i WHERE i.id = ?1", Item.class);
-		q.setParameter(1, id);
+		TypedQuery<Item> q = em.createNamedQuery("item.search", Item.class);
+		q.setParameter("id", id);
 		Item item = q.getSingleResult();
 		item.setDeprecated(b);
 		em.getTransaction().begin();

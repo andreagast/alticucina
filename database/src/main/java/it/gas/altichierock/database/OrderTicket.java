@@ -9,9 +9,15 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.NamedQuery;
+import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "order.notcomplete", query = "SELECT o FROM OrderTicket o WHERE o.completed = FALSE"),
+	@NamedQuery(name = "order.maxidtoday", query = "SELECT MAX(i.id) FROM OrderTicket i WHERE i.created = CURRENT_DATE")
+})
 public class OrderTicket implements Serializable {
 	private static final long serialVersionUID = 1L;
 
