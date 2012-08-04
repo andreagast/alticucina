@@ -60,14 +60,16 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 	@Override
 	public void run() {
 		try {
-			//retrieve the orders not completed
-			List<OrderTicket> l = logic.getNonCompletedOrders();
-			//remove the one already displayed
-			for (int i = 0; i < boxes.size(); i++)
-				l.remove(boxes.get(i).getOrderTicket());
-			//display the new ones
-			addOrder(l);
-			Thread.sleep(5000);
+			while (! Thread.interrupted()) {
+				//retrieve the orders not completed
+				List<OrderTicket> l = logic.getNonCompletedOrders();
+				//remove the one already displayed
+				for (int i = 0; i < boxes.size(); i++)
+					l.remove(boxes.get(i).getOrderTicket());
+				//display the new ones
+				addOrder(l);
+				Thread.sleep(5000);
+			}
 		} catch (InterruptedException e) {
 			//we're closing, say goodbye!
 			System.out.println(e.getMessage());
