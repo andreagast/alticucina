@@ -1,48 +1,44 @@
 package it.gas.altichierock.database;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class OrderTicket implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private int id;
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	private Date created;
+	@EmbeddedId
+	private OrderTicketId id;
 	private boolean completed;
 	private boolean served;
 	@OneToMany
-	@JoinColumn(name = "orderId")
+	@JoinColumns({
+		@JoinColumn(name = "orderId", referencedColumnName = "id"),
+		@JoinColumn(name = "orderCreated", referencedColumnName = "created")
+	})
 	private List<Detail> detail;
 	@Column(length = 2000)
 	private String note;
+	
+	public OrderTicket() {
+		id = new OrderTicketId();
+		detail = new ArrayList<Detail>();
+	}
 
-	public int getId() {
+	public OrderTicketId getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(OrderTicketId id) {
 		this.id = id;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
 	}
 
 	public boolean isCompleted() {
