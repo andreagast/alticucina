@@ -1,5 +1,6 @@
 package it.gas.altichierock.order;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import it.gas.altichierock.database.Detail;
 import it.gas.altichierock.database.OrderTicket;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -34,9 +36,10 @@ public class OrderBox extends JComponent implements ActionListener {
 	
 	private void initComponents() {
 		setLayout(new MigLayout("fill, wrap 2", "[][grow]"));
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		JPanel top = new JPanel(new MigLayout());
-		lblId = new JLabel("", SwingConstants.CENTER);
+		lblId = new JLabel("" + order.getId(), SwingConstants.CENTER);
 		
 		top.add(new JLabel("Order ID: "));
 		top.add(lblId, "push"); //TODO
