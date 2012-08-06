@@ -1,12 +1,10 @@
 package it.gas.altichierock.database;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Embeddable
 public class OrderTicketId implements Serializable {
@@ -25,7 +23,7 @@ public class OrderTicketId implements Serializable {
 		this.created = created;
 	}
 	private int id;
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
 	private Date created;
 }
