@@ -12,6 +12,8 @@ public class InsertComboModel extends DefaultComboBoxModel {
 	
 	public InsertComboModel(List<Item> l) {
 		items = l;
+		if (items != null && items.size() > 0)
+			setSelectedItem(items.get(0));
 	}
 
 	@Override
@@ -21,6 +23,8 @@ public class InsertComboModel extends DefaultComboBoxModel {
 	
 	@Override
 	public int getSize() {
+		if (items == null)
+			return 0;
 		return items.size();
 	}
 
