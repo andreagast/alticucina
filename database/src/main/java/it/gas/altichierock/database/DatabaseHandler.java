@@ -1,5 +1,8 @@
 package it.gas.altichierock.database;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -18,7 +21,9 @@ public class DatabaseHandler {
 	}
 	
 	private DatabaseHandler() {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("altichierockPU");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("javax.persistence.jdbc.url", "jdbc:derby://localhost:1527/altichierock;create=true");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("altichierockPU", map);
 		em = emf.createEntityManager();
 		tx = em.getTransaction();
 	}
