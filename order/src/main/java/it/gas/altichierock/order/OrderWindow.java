@@ -3,6 +3,8 @@ package it.gas.altichierock.order;
 import it.gas.altichierock.database.OrderTicket;
 
 import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		logic = new OrderLogic();
 		boxes = new ArrayList<OrderBox>();
 		initComponents();
+		initListeners();
 		setSize(500, 500);
 		setLocationRelativeTo(f);
 	}
@@ -34,19 +37,22 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		setLayout(new MigLayout("wrap 5, fill"));
 	}
 	
-	@Override
-	public void setVisible(boolean b) {
-		if (b) {
-			if (t != null) t.interrupt();
-			t = new Thread(this);
-			t.start();
-			System.out.println("visible true");
-		} else {
-			if (t != null)
-				t.interrupt();
-			System.out.println("visible false");
-		}
-		super.setVisible(b);
+	private void initListeners() {
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				stopThread();
+				super.windowClosing(arg0);
+			}
+
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				startThread();
+				super.windowOpened(arg0);
+			}
+			
+		});
 	}
 
 	@Override
@@ -55,6 +61,18 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		boxes.remove(ob);
 		logic.markAsCompleted(ob.getOrderTicket());
 		validate();
+	}
+	
+	private void startThread() {
+		if (t != null)
+			stopThread();
+		t = new Thread(this);
+		t.start();
+	}
+	
+	private void stopThread() {
+		if (t != null)
+			t.interrupt();
 	}
 	
 	@Override
@@ -74,6 +92,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 			//we're closing, say goodbye!
 			System.out.println(e.getMessage());
 		}
+		System.out.println("Interrupted.");
 	}
 	
 	private void addOrder(final List<OrderTicket> l) {
