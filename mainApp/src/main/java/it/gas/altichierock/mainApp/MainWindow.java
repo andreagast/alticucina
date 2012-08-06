@@ -1,18 +1,24 @@
 package it.gas.altichierock.mainApp;
 
 import it.gas.altichierock.add.AddWindow;
+import it.gas.altichierock.database.DatabaseHandler;
 import it.gas.altichierock.insert.InsertWindow;
 import it.gas.altichierock.order.OrderWindow;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
@@ -26,14 +32,11 @@ public class MainWindow extends JFrame implements ActionListener {
 		setTitle(Constants.TITLE);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		initComponents(); //drawing code
+		initListeners();
 		pack();
 		setLocationRelativeTo(null);
 		
-		//working code
-		btnInsert.addActionListener(this);
-		btnAdd.addActionListener(this);
-		btnOrder.addActionListener(this);
-		btnDisplay.addActionListener(this);
+		lock(true);
 	}
 	
 	private void initComponents() {
@@ -58,6 +61,34 @@ public class MainWindow extends JFrame implements ActionListener {
 		pnlCentered.add(btnOrder, "split 2, growx, wrap");
 		pnlCentered.add(btnDisplay, "growx");
 	}
+	
+	private void initListeners() {
+		//working code
+		btnInsert.addActionListener(this);
+		btnAdd.addActionListener(this);
+		btnOrder.addActionListener(this);
+		btnDisplay.addActionListener(this);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				//lock the module and start the loading
+				lock(true);
+				new DBLoader().execute();
+			}
+		});
+	}
+	
+	private void lock(boolean b) {
+		btnInsert.setEnabled(!b);
+		btnAdd.setEnabled(!b);
+		btnOrder.setEnabled(!b);
+		btnDisplay.setEnabled(!b);
+	}
+	
+	private void showMessage(String str) {
+		JOptionPane.showMessageDialog(this, str);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -73,6 +104,36 @@ public class MainWindow extends JFrame implements ActionListener {
 		} else if (arg0.getSource().equals(btnDisplay)) {
 			System.out.println("display");
 		}
+	}
+	
+	//initialize the DB
+	private class DBLoader extends SwingWorker<Void, Void> {
+
+		@Override
+		protected Void doInBackground() throws Exception {
+			DatabaseHandler.getInstance();
+			return null;
+		}
+
+		@Override
+		protected void done() {
+			try {
+				get();
+				lock(false);
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+				showMessage("Huh oh, there's a problem with the DB.\n" +
+						"Check the server and try again.");
+				dispose();
+			} catch (InterruptedException e) {
+				//it should never happen...
+				e.printStackTrace();
+				dispose();
+			}
+		}
+		
+		
+		
 	}
 	
 }
