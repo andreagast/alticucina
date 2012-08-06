@@ -23,7 +23,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 	
 	public OrderWindow(Frame f) {
 		super(f, true);
-		setTitle("Menu creator");
+		setTitle("Show(er)");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		logic = new OrderLogic();
 		boxes = new ArrayList<OrderBox>();

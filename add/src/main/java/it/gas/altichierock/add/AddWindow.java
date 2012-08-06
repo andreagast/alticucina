@@ -32,7 +32,7 @@ public class AddWindow extends JDialog implements ActionListener, ListSelectionL
 
 	public AddWindow(Frame w) {
 		super(w, true);
-		setTitle("Menu organizer");
+		setTitle("Organizer");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		initComponents(); //drawing code
 		setSize(400, 300);

@@ -43,7 +43,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 	
 	public InsertWindow(Frame w) {
 		super(w, true);
-		setTitle("Menu creator");
+		setTitle("Create-a-menu!");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		initComponents(); //drawing code
 		//initListeners(); //listeners
