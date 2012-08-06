@@ -2,6 +2,7 @@ package it.gas.altichierock.mainApp;
 
 import it.gas.altichierock.add.AddWindow;
 import it.gas.altichierock.database.DatabaseHandler;
+import it.gas.altichierock.display.DisplayWindow;
 import it.gas.altichierock.insert.InsertWindow;
 import it.gas.altichierock.order.OrderWindow;
 
@@ -102,7 +103,8 @@ public class MainWindow extends JFrame implements ActionListener {
 			//System.out.println("order");
 			new OrderWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnDisplay)) {
-			System.out.println("display");
+			//System.out.println("display");
+			new DisplayWindow(this).setVisible(true);
 		}
 	}
 	

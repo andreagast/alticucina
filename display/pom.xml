@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.gas.altichierock</groupId>
-	<artifactId>mainApp</artifactId>
+	<artifactId>display</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<dependencies>
@@ -10,31 +10,13 @@
 			<groupId>com.miglayout</groupId>
 			<artifactId>miglayout-swing</artifactId>
 			<version>4.2</version>
+			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>it.gas.altichierock</groupId>
-			<artifactId>add</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>it.gas.altichierock</groupId>
-			<artifactId>insert</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-            <groupId>it.gas.altichierock</groupId>
-            <artifactId>order</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
 			<artifactId>database</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>it.gas.altichierock</groupId>
-			<artifactId>display</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
@@ -47,19 +29,6 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<manifest>
-						    <addClasspath>true</addClasspath>
-							<mainClass>it.gas.altichierock.mainApp.MainApp</mainClass>
-						</manifest>
-					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
