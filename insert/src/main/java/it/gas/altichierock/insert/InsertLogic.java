@@ -33,7 +33,9 @@ public class InsertLogic {
 		EntityManager em = handler.getEntityManager();
 		//retrieve the highest id used
 		TypedQuery<Integer> q = em.createNamedQuery("order.maxidtoday", Integer.class);
-		int max = q.getSingleResult();
+		Integer max = q.getSingleResult();
+		if (max == null) //first order of the day!
+			max = -1;
 		System.out.println("MAX->" + max);
 		o.getId().setId(max+1);
 		//persist every child
