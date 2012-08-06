@@ -60,7 +60,12 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		remove(ob);
 		boxes.remove(ob);
 		logic.markAsCompleted(ob.getOrderTicket());
-		validate();
+		//if there's no subcomponent, validate does nothing,
+		//leaving the last box (just removed) draw on the screen
+		if (boxes.size() == 0)
+			this.repaint();
+		else
+			validate();
 	}
 	
 	private void startThread() {
