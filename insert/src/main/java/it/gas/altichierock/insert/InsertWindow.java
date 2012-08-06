@@ -7,8 +7,8 @@ import it.gas.altichierock.database.OrderTicket;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -152,7 +152,8 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 		@Override
 		protected Integer doInBackground() throws Exception {
 			OrderTicket o = new OrderTicket();
-			o.getId().setCreated(Calendar.getInstance().getTime());
+			//o.getId().setCreated(Calendar.getInstance().getTime());
+			o.getId().setCreated(new Date(System.currentTimeMillis()));
 			o.setNote(txtNote.getText());
 			List<Detail> l = new ArrayList<Detail>();
 			for (int i = 0; i < container.getSize(); i++) {
@@ -176,6 +177,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 				showMessage("Order ID: " + id);
 				reset();
 			} catch (Exception e) { 
+				e.printStackTrace();
 				showMessage(e.getMessage());
 			}
 			lock(false);
