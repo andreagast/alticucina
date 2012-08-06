@@ -99,15 +99,18 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				for (int i = 0; i < l.size(); i++) {
-					add(makeOrderBox(l.get(i)));
+					OrderBox ob = makeOrderBox(l.get(i));
+					boxes.add(ob); //ADD IT TO THE LIST!
+					add(ob);
 				}
 				validate();
 				
 			}
 		});
 	}
-	
+
 	private OrderBox makeOrderBox(OrderTicket t) {
+		//just wrap the order in a box and add the listener
 		OrderBox ob = new OrderBox(t);
 		ob.addListener(this);
 		return ob;
