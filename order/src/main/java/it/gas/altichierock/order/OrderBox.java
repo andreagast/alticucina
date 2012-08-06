@@ -39,7 +39,7 @@ public class OrderBox extends JComponent implements ActionListener {
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		JPanel top = new JPanel(new MigLayout());
-		lblId = new JLabel("" + order.getId().getId(), SwingConstants.CENTER);
+		lblId = new JLabel(order.getId().getCreated() + " - " + order.getId().getId(), SwingConstants.CENTER);
 		
 		top.add(new JLabel("Order ID: "));
 		top.add(lblId, "push"); //TODO
