@@ -2,6 +2,7 @@ package it.gas.altichierock.mainApp;
 
 import it.gas.altichierock.add.AddWindow;
 import it.gas.altichierock.insert.InsertWindow;
+import it.gas.altichierock.order.OrderWindow;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -67,7 +68,8 @@ public class MainWindow extends JFrame implements ActionListener {
 			//System.out.println("add");
 			new AddWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnOrder)) {
-			System.out.println("order");
+			//System.out.println("order");
+			new OrderWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnDisplay)) {
 			System.out.println("display");
 		}
