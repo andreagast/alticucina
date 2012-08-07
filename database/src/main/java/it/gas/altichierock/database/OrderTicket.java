@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({
 	@NamedQuery(name = "order.notcomplete", query = "SELECT o FROM OrderTicket o WHERE o.completed = FALSE"),
+	@NamedQuery(name = "oder.notserved", query = "SELECT o FROM OrderTicket o WHERE o.completed = TRUE AND o.served = FALSE"),
 	@NamedQuery(name = "order.maxidtoday", query = "SELECT MAX(i.id.id) FROM OrderTicket i WHERE i.id.created = CURRENT_DATE")
 })
 public class OrderTicket implements Serializable {
