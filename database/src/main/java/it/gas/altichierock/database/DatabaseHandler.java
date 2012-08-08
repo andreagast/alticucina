@@ -26,6 +26,7 @@ public class DatabaseHandler {
 	}
 	
 	private DatabaseHandler() {
+		//TODO total shit!
 		//retrieve the ip of the server
 		Properties p = new Properties();
 		try {
