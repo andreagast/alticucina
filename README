@@ -1,0 +1,18 @@
+ALTICHIEROCK
+===========
+For this project you need:
+	- this project (obviously)
+	- derby db (the version shouldn't be a problem)
+
+Set up Derby DB:
+Extract the derby zip wherever you want.
+Go inside the "bin" folder and run "startNetworkServer".
+
+Set up the program:
+If derby is running in the same machine where you'll use this program, you're ready
+	to go.
+If not, open the program. When you get the error, click the "Configure..." button and
+	insert the IP address/hostname of the server. Confirm and restart the program.
+	Everything should run just fine from now on.
+	
+Enjoy!
