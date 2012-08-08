@@ -37,7 +37,7 @@ public class DisplayWindow extends JDialog implements Runnable {
 	}
 
 	private void initComponents() {
-		setLayout(new MigLayout("fill, wrap 5, debug"));
+		setLayout(new MigLayout("fill, wrap 5"));
 		
 		JLabel lblTop = new JLabel("Now serving:");
 		add(lblTop, "north");
@@ -83,7 +83,7 @@ public class DisplayWindow extends JDialog implements Runnable {
 					DisplayBox box = new DisplayBox(l.get(i));
 					box.addMouseListener(new MouseLabelClick());
 					tickets.add(box);
-					add(box);
+					add(box, "growx");
 					validate();
 				}
 			}
