@@ -16,8 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import net.miginfocom.swing.MigLayout;
 
 public class OrderBox extends JComponent implements ActionListener {

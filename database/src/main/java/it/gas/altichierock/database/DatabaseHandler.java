@@ -1,7 +1,12 @@
 package it.gas.altichierock.database;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,8 +26,23 @@ public class DatabaseHandler {
 	}
 	
 	private DatabaseHandler() {
+		//retrieve the ip of the server
+		Properties p = new Properties();
+		try {
+			File f = new File("altichierock.properties");
+			System.out.println(f.getCanonicalPath());
+			p.load(new FileInputStream(f));
+		} catch (FileNotFoundException e) {
+			//no problem, we default to localhost
+			System.err.println("File not found, defaulting!");
+			p.put("database.ip", "localhost");
+		} catch (IOException e) {
+			e.printStackTrace();
+			p.put("database.ip", "localhost");
+		}
+		//connect
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("javax.persistence.jdbc.url", "jdbc:derby://localhost:1527/altichierock;create=true");
+		map.put("javax.persistence.jdbc.url", "jdbc:derby://" + p.getProperty("database.ip") + ":1527/altichierock;create=true");
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("altichierockPU", map);
 		em = emf.createEntityManager();
 		tx = em.getTransaction();
