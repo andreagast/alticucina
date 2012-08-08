@@ -20,14 +20,8 @@ public class Container {
 		records.add(r);
 	}
 	
-	public void setQuantity(Item item, int qty) {
-		for (int i = 0; i < records.size(); i++) {
-			Record r = records.get(i);
-			if (r.getItem().equals(item)) {
-				r.setQuantity(qty);
-				break;
-			}
-		}
+	public void setQuantity(int pos, int qty) {
+		records.get(pos).setQuantity(qty);
 	}
 	
 	public int getSize() {

@@ -74,7 +74,7 @@ public class InsertTableModel extends AbstractTableModel {
 		if (col != 2)
 			return;
 		System.out.println("row " + row + " col " + col + " value " + value);
-		container.setQuantity(container.getItem(row), (Integer) value);
+		container.setQuantity(row, (Integer) value);
 		fireTableDataChanged();
 	}
 

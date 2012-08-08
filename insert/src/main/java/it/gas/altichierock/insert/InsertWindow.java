@@ -121,8 +121,8 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 		txtNote.setText("");
 	}
 	
-	private void showMessage(String str) {
-		JOptionPane.showMessageDialog(this, str);
+	private void showMessage(String str, int mode) {
+		JOptionPane.showMessageDialog(this, str, "Altichierock", mode);
 	}
 	
 	@Override
@@ -166,7 +166,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 			
 			logic.save(o);
 			
-			System.out.println("ID: " + o.getId());
+			System.out.println("ID: " + o.getId().getId());
 			return o.getId().getId();
 		}
 		
@@ -174,11 +174,11 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 		protected void done() {
 			try {
 				int id = get();
-				showMessage("Order ID: " + id);
+				showMessage("Order ID: " + id, JOptionPane.INFORMATION_MESSAGE);
 				reset();
 			} catch (Exception e) { 
 				e.printStackTrace();
-				showMessage(e.getMessage());
+				showMessage(e.getMessage(), JOptionPane.ERROR_MESSAGE);
 			}
 			lock(false);
 		}
