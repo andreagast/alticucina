@@ -1,15 +1,27 @@
 package it.gas.altichierock.display;
 
+import it.gas.altichierock.database.OrderTicket;
+
 import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import net.miginfocom.swing.MigLayout;
 
-public class DisplayWindow extends JDialog {
+public class DisplayWindow extends JDialog implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private DisplayLogic logic;
+	private Thread t;
+	private ArrayList<DisplayBox> tickets;
 
 	public DisplayWindow(Frame f) {
 		super(f, true);
@@ -21,17 +33,104 @@ public class DisplayWindow extends JDialog {
 		setLocationRelativeTo(f);
 		
 		logic = new DisplayLogic();
+		tickets = new ArrayList<DisplayBox>();
 	}
 
 	private void initComponents() {
-		setLayout(new MigLayout("fill"));
+		setLayout(new MigLayout("fill, wrap 5, debug"));
 		
 		JLabel lblTop = new JLabel("Now serving:");
 		add(lblTop, "north");
 	}
 	
 	private void initListeners() {
-		// TODO Auto-generated method stub
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				stopThread();
+				super.windowClosing(arg0);
+			}
+
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				startThread();
+				super.windowOpened(arg0);
+			}
+			
+		});
+	}
+	
+	private void startThread() {
+		if (t != null)
+			stopThread();
+		t = new Thread(this);
+		t.start();
+	}
+	
+	private void stopThread() {
+		if (t != null)
+			t.interrupt();
+	}
+	
+	private void showTickets(final List<OrderTicket> l) {
+		if (l.size() == 0)
+			return; //useless to start a thread for doing nothing
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				for (int i = 0; i < l.size(); i++) {
+					DisplayBox box = new DisplayBox(l.get(i));
+					box.addMouseListener(new MouseLabelClick());
+					tickets.add(box);
+					add(box);
+					validate();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void run() {
+		try {
+			while (! Thread.interrupted()) {
+				List<OrderTicket> l = logic.getCompletedNotServed();
+				//remove duplicate
+				for (int i = 0; i < tickets.size(); i++)
+					l.remove(tickets.get(i).getOrderTicket());
+				//add what's left
+				showTickets(l);
+				//wait
+				Thread.sleep(5000);
+			}
+		} catch (InterruptedException e) {
+			//e.printStackTrace();
+			//time to say goodbye!
+		}
+	}
+	
+	private class MouseLabelClick extends MouseAdapter {
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			final DisplayBox lbl = (DisplayBox) arg0.getSource();
+			System.out.println(lbl.getText());
+			
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					logic.markAsDisplayed(lbl.getOrderTicket());
+				}
+			}).start();
+			
+			
+			tickets.remove(lbl);
+			remove(lbl);
+			if (tickets.size() == 0)
+				repaint();
+			else
+				validate();
+		}
 		
 	}
 	
