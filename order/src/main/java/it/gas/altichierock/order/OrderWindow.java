@@ -106,7 +106,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 				for (int i = 0; i < l.size(); i++) {
 					OrderBox ob = makeOrderBox(l.get(i));
 					boxes.add(ob); //ADD IT TO THE LIST!
-					add(ob);
+					add(ob, "grow");
 				}
 				validate();
 				

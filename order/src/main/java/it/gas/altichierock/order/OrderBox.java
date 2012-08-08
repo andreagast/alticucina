@@ -1,6 +1,7 @@
 package it.gas.altichierock.order;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import it.gas.altichierock.database.Detail;
 import it.gas.altichierock.database.OrderTicket;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -35,20 +37,35 @@ public class OrderBox extends JComponent implements ActionListener {
 	}
 	
 	private void initComponents() {
-		setLayout(new MigLayout("fill, wrap 2", "[][grow]"));
+		setLayout(new MigLayout("fill, wrap"));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
+		//NORTH
+		
 		JPanel top = new JPanel(new MigLayout());
-		lblId = new JLabel(order.getId().getCreated() + " - " + order.getId().getId(), SwingConstants.CENTER);
+		lblId = new JLabel(order.getId().getCreated() + " - " +
+				order.getId().getId());
+		Font f = lblId.getFont();
+		f = new Font(f.getFamily(), Font.BOLD, f.getSize());
+		lblId.setFont(f);
 		
 		top.add(new JLabel("Order ID: "));
-		top.add(lblId, "push"); //TODO
+		top.add(lblId, "push, grow");
 		add(top, "north");
 		
-		//panel detail
+		//SOUTH
+		
+		JPanel bottom = new JPanel(new MigLayout());
+		add(bottom, "south");
+		
+		JLabel lblNote = new JLabel(order.getNote());
+		f = lblNote.getFont();
+		f = new Font(f.getFamily(), Font.ITALIC, f.getSize());
+		lblNote.setFont(f);
+		bottom.add(lblNote, "push");
 		
 		btnCompleted = new JButton("Order completed");
-		add(btnCompleted, "south");
+		bottom.add(btnCompleted, "south");
 	}
 	
 	private void initListeners() {
@@ -58,9 +75,10 @@ public class OrderBox extends JComponent implements ActionListener {
 	private void fillDetail() {
 		List<Detail> l = order.getDetail();
 		for (int i = 0; i < l.size(); i++) {
-			add(new JLabel("" + l.get(i).getQuantity()));
-			add(new JLabel(l.get(i).getItemId().getDescription()));
+			add(new JLabel("" + l.get(i).getQuantity()), "split 2");
+			add(new JLabel(l.get(i).getItemId().getDescription()), "growx");
 		}
+		add(Box.createGlue(), "push, grow");
 	}
 	
 	public int getId() {
