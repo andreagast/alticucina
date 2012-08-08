@@ -11,6 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
@@ -88,7 +93,25 @@ public class MainWindow extends JFrame implements ActionListener {
 	}
 	
 	private void showMessage(String str) {
-		JOptionPane.showMessageDialog(this, str);
+		//JOptionPane.showMessageDialog(this, str);
+		Object[] options = {"OK", "Configure..."};
+		int res = JOptionPane.showOptionDialog(this, str, Constants.TITLE,
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
+				options, options[0]);
+		if (res == JOptionPane.NO_OPTION) {
+			String ip = JOptionPane.showInputDialog(this, "Insert the new db address");
+			Properties p = new Properties();
+			p.put("database.ip", ip);
+			File f = new File("altichierock.properties");
+			try {
+				p.store(new FileOutputStream(f), "Use the program!");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace(); //TODO
+			} catch (IOException e) {
+				e.printStackTrace(); //TODO
+			}
+			JOptionPane.showMessageDialog(this, "Done. Next time this program shuld use\nthe new settings.", Constants.TITLE, JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	@Override
