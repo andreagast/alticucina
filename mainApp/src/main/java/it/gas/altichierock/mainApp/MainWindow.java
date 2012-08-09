@@ -66,7 +66,12 @@ public class MainWindow extends JFrame implements ActionListener {
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font(lblTitle.getFont().getFamily(), Font.BOLD, 48));
 		
+		JLabel lblTwitter = new JLabel(Constants.TWITTER);
+		lblTwitter.setHorizontalAlignment(SwingConstants.CENTER);
+		//lblTwitter.setFont(new Font(lblTitle.getFont().getFamily(), Font.PLAIN, 10));
+		
 		pnlCentered.add(lblTitle, "growx, wrap");
+		pnlCentered.add(lblTwitter, "growx, wrap");
 		pnlCentered.add(btnInsert, "split 2, growx");
 		pnlCentered.add(btnAdd, "wrap");
 		pnlCentered.add(btnOrder, "split 2, growx, wrap");
