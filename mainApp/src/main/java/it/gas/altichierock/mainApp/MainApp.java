@@ -16,16 +16,12 @@ public class MainApp implements Runnable {
 			String lnf = UIManager.getSystemLookAndFeelClassName();
 			UIManager.setLookAndFeel(lnf);
 		} catch (ClassNotFoundException e) {
-			//e.printStackTrace();
 			log.error("L&F not available.");
 		} catch (InstantiationException e) {
-			//e.printStackTrace();
 			log.error("Can't instantiate L&F.");
 		} catch (IllegalAccessException e) {
-			//e.printStackTrace();
 			log.error("We don't have access to L&F.");
 		} catch (UnsupportedLookAndFeelException e) {
-			//e.printStackTrace();
 			log.error("L&F not supported.");
 		}
 		//where everything start

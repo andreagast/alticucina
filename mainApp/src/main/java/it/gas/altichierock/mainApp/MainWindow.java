@@ -112,10 +112,8 @@ public class MainWindow extends JFrame implements ActionListener {
 			try {
 				p.store(new FileOutputStream(f), "Use the program!");
 			} catch (FileNotFoundException e) {
-				//e.printStackTrace();
 				log.error("Can't find properties.", e);
 			} catch (IOException e) {
-				//e.printStackTrace();
 				log.error("Can't access properties.", e);
 			}
 			JOptionPane.showMessageDialog(this, "Done. Next time this program shuld use\nthe new settings.", Constants.TITLE, JOptionPane.INFORMATION_MESSAGE);
@@ -125,16 +123,12 @@ public class MainWindow extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource().equals(btnInsert)) {
-			//System.out.println("insert");
 			new InsertWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnAdd)) {
-			//System.out.println("add");
 			new AddWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnOrder)) {
-			//System.out.println("order");
 			new OrderWindow(this).setVisible(true);
 		} else if (arg0.getSource().equals(btnDisplay)) {
-			//System.out.println("display");
 			new DisplayWindow(this).setVisible(true);
 		}
 	}
@@ -154,14 +148,12 @@ public class MainWindow extends JFrame implements ActionListener {
 				get();
 				lock(false);
 			} catch (ExecutionException e) {
-				//e.printStackTrace();
 				log.error("Something went wrong during db instancing.", e);
 				showMessage("Huh oh, there's a problem with the DB.\n" +
 						"Check the server and try again.");
 				dispose();
 			} catch (InterruptedException e) {
 				//it should never happen...
-				//e.printStackTrace();
 				log.error("Something interrupted our db loading.", e);
 				dispose();
 			}
