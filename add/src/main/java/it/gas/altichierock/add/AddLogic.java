@@ -16,7 +16,7 @@ public class AddLogic {
 	}
 
 	public List<Item> getItems() {
-		TypedQuery<Item> q = em.createNamedQuery("item.ordered", Item.class);
+		TypedQuery<Item> q = em.createNamedQuery("item.ordered.all", Item.class);
 		return q.getResultList();
 	}
 	
@@ -24,6 +24,7 @@ public class AddLogic {
 		Item i = new Item();
 		i.setDescription(descr);
 		i.setPrice(price);
+		i.setDeprecated(false);
 		em.getTransaction().begin();
 		em.persist(i);
 		em.getTransaction().commit();
@@ -33,7 +34,7 @@ public class AddLogic {
 		TypedQuery<Item> q = em.createNamedQuery("item.search", Item.class);
 		q.setParameter("id", id);
 		Item item = q.getSingleResult();
-		item.setDeprecated(b);
+		item.setDeprecated(! b);
 		em.getTransaction().begin();
 		em.merge(item);
 		em.getTransaction().commit();

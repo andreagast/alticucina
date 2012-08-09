@@ -74,7 +74,7 @@ public class AddTableModel extends AbstractTableModel {
 				return l.get(arg0).getPrice();
 			return 0;
 		case 3:
-			return l.get(arg0).isDeprecated();
+			return ! l.get(arg0).isDeprecated();
 		default:
 			return "";
 		}
