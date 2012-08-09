@@ -3,6 +3,9 @@ package it.gas.altichierock.add;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -80,6 +83,13 @@ public class AddWindow extends JDialog implements ActionListener, ListSelectionL
 		btnAdd.addActionListener(this);
 		chkEnabled.addActionListener(this);
 		tblMenu.getSelectionModel().addListSelectionListener(this);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				lock(true);
+				new Reloader().execute();
+			}
+		});
 	}
 	
 	private void lock(boolean b) {
@@ -109,15 +119,6 @@ public class AddWindow extends JDialog implements ActionListener, ListSelectionL
 		}
 		txtName.setText("");
 		txtPrice.setText("");
-	}
-	
-	@Override
-	public void setVisible(boolean b) {
-		if (b == true) { //TODO find a better way
-			lock(true);
-			new Reloader().execute();
-		}
-		super.setVisible(b);
 	}
 	
 	@Override
