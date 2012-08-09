@@ -4,7 +4,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MainApp implements Runnable {
+	private static Logger log = LoggerFactory.getLogger(MainApp.class);
 
 	public static void main(String[] args) {
 		try {
@@ -13,16 +17,16 @@ public class MainApp implements Runnable {
 			UIManager.setLookAndFeel(lnf);
 		} catch (ClassNotFoundException e) {
 			//e.printStackTrace();
-			System.err.println("L&F not available.");
+			log.error("L&F not available.");
 		} catch (InstantiationException e) {
 			//e.printStackTrace();
-			System.err.println("Can't instantiate L&F.");
+			log.error("Can't instantiate L&F.");
 		} catch (IllegalAccessException e) {
 			//e.printStackTrace();
-			System.err.println("We don't have access to L&F.");
+			log.error("We don't have access to L&F.");
 		} catch (UnsupportedLookAndFeelException e) {
 			//e.printStackTrace();
-			System.err.println("L&F not supported.");
+			log.error("L&F not supported.");
 		}
 		//where everything start
 		SwingUtilities.invokeLater(new MainApp());

@@ -27,10 +27,14 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.miginfocom.swing.MigLayout;
 
 public class MainWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
+	private Logger log = LoggerFactory.getLogger(MainWindow.class);
 	private JButton btnInsert, btnAdd, btnOrder, btnDisplay;
 
 	public MainWindow() {
@@ -108,9 +112,11 @@ public class MainWindow extends JFrame implements ActionListener {
 			try {
 				p.store(new FileOutputStream(f), "Use the program!");
 			} catch (FileNotFoundException e) {
-				e.printStackTrace(); //TODO
+				//e.printStackTrace();
+				log.error("Can't find properties.", e);
 			} catch (IOException e) {
-				e.printStackTrace(); //TODO
+				//e.printStackTrace();
+				log.error("Can't access properties.", e);
 			}
 			JOptionPane.showMessageDialog(this, "Done. Next time this program shuld use\nthe new settings.", Constants.TITLE, JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -148,13 +154,15 @@ public class MainWindow extends JFrame implements ActionListener {
 				get();
 				lock(false);
 			} catch (ExecutionException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
+				log.error("Something went wrong during db instancing.", e);
 				showMessage("Huh oh, there's a problem with the DB.\n" +
 						"Check the server and try again.");
 				dispose();
 			} catch (InterruptedException e) {
 				//it should never happen...
-				e.printStackTrace();
+				//e.printStackTrace();
+				log.error("Something interrupted our db loading.", e);
 				dispose();
 			}
 		}
