@@ -15,10 +15,14 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.miginfocom.swing.MigLayout;
 
 public class DisplayWindow extends JDialog implements Runnable {
 	private static final long serialVersionUID = 1L;
+	private Logger log = LoggerFactory.getLogger(DisplayWindow.class);
 	private DisplayLogic logic;
 	private Thread t;
 	private ArrayList<DisplayBox> tickets;
@@ -104,7 +108,7 @@ public class DisplayWindow extends JDialog implements Runnable {
 				Thread.sleep(5000);
 			}
 		} catch (InterruptedException e) {
-			//e.printStackTrace();
+			log.error("Refresh thread interrupted.", e);
 			//time to say goodbye!
 		}
 	}
@@ -114,7 +118,7 @@ public class DisplayWindow extends JDialog implements Runnable {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			final DisplayBox lbl = (DisplayBox) arg0.getSource();
-			System.out.println(lbl.getText());
+			log.debug("Click on {}", lbl.getText());
 			
 			new Thread(new Runnable() {
 				@Override
