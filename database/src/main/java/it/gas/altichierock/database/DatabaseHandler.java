@@ -13,8 +13,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DatabaseHandler {
 	private static DatabaseHandler INSTANCE;
+	private Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
 	
 	private EntityManager em;
 	private EntityTransaction tx;
@@ -31,14 +35,14 @@ public class DatabaseHandler {
 		Properties p = new Properties();
 		try {
 			File f = new File("altichierock.properties");
-			System.out.println(f.getCanonicalPath());
+			log.debug(f.getCanonicalPath());
 			p.load(new FileInputStream(f));
 		} catch (FileNotFoundException e) {
 			//no problem, we default to localhost
-			System.err.println("File not found, defaulting!");
+			log.error("File not found, defaulting!", e);
 			p.put("database.ip", "localhost");
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("There was a problem reading the properties.", e);
 			p.put("database.ip", "localhost");
 		}
 		//connect
