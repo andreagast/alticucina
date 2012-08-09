@@ -1,6 +1,7 @@
 package it.gas.altichierock.mainApp;
 
 import it.gas.altichierock.add.AddWindow;
+import it.gas.altichierock.database.Constants;
 import it.gas.altichierock.database.DatabaseHandler;
 import it.gas.altichierock.display.DisplayWindow;
 import it.gas.altichierock.insert.InsertWindow;

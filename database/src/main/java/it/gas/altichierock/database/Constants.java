@@ -1,4 +1,4 @@
-package it.gas.altichierock.mainApp;
+package it.gas.altichierock.database;
 
 public interface Constants {
 	public final static String TITLE = "AltichieRock";
