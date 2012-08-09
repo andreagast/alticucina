@@ -1,5 +1,6 @@
 package it.gas.altichierock.insert;
 
+import it.gas.altichierock.database.Constants;
 import it.gas.altichierock.database.Detail;
 import it.gas.altichierock.database.Item;
 import it.gas.altichierock.database.OrderTicket;
@@ -127,7 +128,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 	
 	private void showMessage(String str, int mode) {
 		//TODO
-		JOptionPane.showMessageDialog(this, str, "Altichierock", mode);
+		JOptionPane.showMessageDialog(this, str, Constants.TITLE, mode);
 	}
 	
 	@Override
