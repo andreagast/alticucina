@@ -24,7 +24,7 @@ public class InsertLogic {
 	}
 	
 	public void refresh() {
-		TypedQuery<Item> q = handler.getEntityManager().createNamedQuery("item.ordered", Item.class);
+		TypedQuery<Item> q = handler.getEntityManager().createNamedQuery("item.ordered.enabled", Item.class);
 		menu = q.getResultList();
 	}
 	
