@@ -99,7 +99,9 @@ public class MainWindow extends JFrame implements ActionListener {
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[0]);
 		if (res == JOptionPane.NO_OPTION) {
-			String ip = JOptionPane.showInputDialog(this, "Insert the new db address");
+			String ip = JOptionPane.showInputDialog(this, "Insert the new db address:", Constants.TITLE, JOptionPane.QUESTION_MESSAGE);
+			if (ip == null) //dialog cancelled
+				return;
 			Properties p = new Properties();
 			p.put("database.ip", ip);
 			File f = new File("altichierock.properties");
