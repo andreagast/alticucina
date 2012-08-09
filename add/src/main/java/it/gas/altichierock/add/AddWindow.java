@@ -18,10 +18,15 @@ import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.miginfocom.swing.MigLayout;
 
 public class AddWindow extends JDialog implements ActionListener, ListSelectionListener {
 	private static final long serialVersionUID = 1L;
+	private Logger log = LoggerFactory.getLogger(AddWindow.class);
 	private JTable tblMenu;
 	private JCheckBox chkEnabled;
 	private JTextField txtName, txtPrice;
@@ -113,7 +118,6 @@ public class AddWindow extends JDialog implements ActionListener, ListSelectionL
 			new Reloader().execute();
 		}
 		super.setVisible(b);
-		//System.out.println("VISIBLE!");
 	}
 	
 	@Override
@@ -135,7 +139,7 @@ public class AddWindow extends JDialog implements ActionListener, ListSelectionL
 
 		@Override
 		protected Void doInBackground() throws Exception {
-			System.out.println("DOINBACKGROUND");
+			log.debug("doInBackground");
 			menu.refresh();
 			return null;
 		}
@@ -143,7 +147,7 @@ public class AddWindow extends JDialog implements ActionListener, ListSelectionL
 		@Override
 		protected void done() {
 			lock(false);
-			System.out.println("DONE");
+			log.debug("done");
 		}
 		
 	}
@@ -153,7 +157,7 @@ public class AddWindow extends JDialog implements ActionListener, ListSelectionL
 		if (arg0.getValueIsAdjusting())
 			return;
 		selected = tblMenu.getSelectedRow();
-		System.out.println("Changed selection! " + selected);
+		log.debug("Changed selection! {}", selected);
 		if (selected == -1) {
 			chkEnabled.setEnabled(false);
 			chkEnabled.setSelected(false);
