@@ -12,7 +12,8 @@ import javax.persistence.NamedQueries;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name = "item.ordered", query = "SELECT i FROM Item i ORDER BY i.id"),
+	@NamedQuery(name = "item.ordered.all", query = "SELECT i FROM Item i ORDER BY i.id"),
+	@NamedQuery(name = "item.ordered.enabled", query = "SELECT i FROM Item i WHERE i.deprecated = FALSE ORDER BY i.id"),
 	@NamedQuery(name = "item.search", query = "SELECT i FROM Item i WHERE i.id = :id")
 })
 public class Item implements Serializable {
