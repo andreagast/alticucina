@@ -101,7 +101,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 			//we're closing, say goodbye!
 			log.error("Refresh thread interrupted.", e);
 		}
-		System.out.println("Interrupted.");
+		log.debug("Refresh thread stopped.");
 	}
 	
 	private void addOrder(final List<OrderTicket> l) {
