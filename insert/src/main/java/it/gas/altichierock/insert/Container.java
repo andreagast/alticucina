@@ -5,7 +5,11 @@ import it.gas.altichierock.database.Item;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Container {
+	private Logger log = LoggerFactory.getLogger(Container.class);
 	private List<Record> records;
 	
 	public Container() {
@@ -13,7 +17,7 @@ public class Container {
 	}
 	
 	public void addRecord(Item i) {
-		System.out.println(i);
+		log.debug("addRecord: {}", i);
 		Record r = new Record();
 		r.setItem(i);
 		r.setQuantity(1);

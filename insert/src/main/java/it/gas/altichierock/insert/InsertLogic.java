@@ -10,7 +10,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class InsertLogic {
+	private Logger log = LoggerFactory.getLogger(InsertLogic.class);
 	private List<Item> menu;
 	private DatabaseHandler handler;
 	
@@ -36,7 +40,7 @@ public class InsertLogic {
 		Integer max = q.getSingleResult();
 		if (max == null) //first order of the day!
 			max = -1;
-		System.out.println("MAX->" + max);
+		log.debug("MAX->{}", max);
 		o.getId().setId(max+1);
 		//persist every child
 		for (int i = 0; i < o.getDetail().size(); i++)

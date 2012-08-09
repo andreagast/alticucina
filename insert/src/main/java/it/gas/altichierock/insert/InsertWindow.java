@@ -25,10 +25,14 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.miginfocom.swing.MigLayout;
 
 public class InsertWindow extends JDialog implements ActionListener, TableModelListener {
 	private static final long serialVersionUID = 1L;
+	private Logger log = LoggerFactory.getLogger(InsertWindow.class);
 	private JComboBox cmbInsert;
 	private JTable tblOrder;
 	private JButton btnInsert, btnDelete, btnClear, btnMake;
@@ -122,6 +126,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 	}
 	
 	private void showMessage(String str, int mode) {
+		//TODO
 		JOptionPane.showMessageDialog(this, str, "Altichierock", mode);
 	}
 	
@@ -166,7 +171,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 			
 			logic.save(o);
 			
-			System.out.println("ID: " + o.getId().getId());
+			log.debug("ID: {}", o.getId().getId());
 			return o.getId().getId();
 		}
 		
@@ -176,8 +181,8 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 				int id = get();
 				showMessage("Order ID: " + id, JOptionPane.INFORMATION_MESSAGE);
 				reset();
-			} catch (Exception e) { 
-				e.printStackTrace();
+			} catch (Exception e) {
+				log.error("Error." , e);
 				showMessage(e.getMessage(), JOptionPane.ERROR_MESSAGE);
 			}
 			lock(false);
@@ -208,7 +213,7 @@ public class InsertWindow extends JDialog implements ActionListener, TableModelL
 
 	@Override
 	public void tableChanged(TableModelEvent arg0) {
-		System.out.println("Table changed!");
+		log.debug("Table changed!");
 		lblSubtotal.setText(Float.toString(container.getSubtotal()));
 	}
 

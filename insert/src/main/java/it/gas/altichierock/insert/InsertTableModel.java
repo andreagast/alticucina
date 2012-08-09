@@ -2,8 +2,12 @@ package it.gas.altichierock.insert;
 
 import javax.swing.table.AbstractTableModel;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class InsertTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
+	private Logger log = LoggerFactory.getLogger(InsertTableModel.class);
 	private Container container;
 	
 	public InsertTableModel(Container c) {
@@ -73,7 +77,7 @@ public class InsertTableModel extends AbstractTableModel {
 	public void setValueAt(Object value, int row, int col) {
 		if (col != 2)
 			return;
-		System.out.println("row " + row + " col " + col + " value " + value);
+		log.debug("row {} col {} value {}", new Object[] {row, col, value});
 		container.setQuantity(row, (Integer) value);
 		fireTableDataChanged();
 	}
