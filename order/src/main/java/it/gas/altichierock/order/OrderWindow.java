@@ -12,10 +12,14 @@ import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.miginfocom.swing.MigLayout;
 
 public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 	private static final long serialVersionUID = 1L;
+	private Logger log = LoggerFactory.getLogger(OrderWindow.class);
 	private Thread t;
 	private OrderLogic logic;
 	
@@ -95,7 +99,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 			}
 		} catch (InterruptedException e) {
 			//we're closing, say goodbye!
-			System.out.println(e.getMessage());
+			log.error("Refresh thread interrupted.", e);
 		}
 		System.out.println("Interrupted.");
 	}
