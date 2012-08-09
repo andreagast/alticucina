@@ -1,7 +1,9 @@
 package it.gas.altichierock.display;
 
+import it.gas.altichierock.database.Constants;
 import it.gas.altichierock.database.OrderTicket;
 
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,6 +14,8 @@ import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
@@ -43,8 +47,15 @@ public class DisplayWindow extends JDialog implements Runnable {
 	private void initComponents() {
 		setLayout(new MigLayout("fill, wrap 5"));
 		
+		JPanel pnlTop = new JPanel(new MigLayout("fill"));
+		add(pnlTop, "north");
+		
 		JLabel lblTop = new JLabel("Now serving:");
-		add(lblTop, "north");
+		lblTop.setFont(new Font(lblTop.getFont().getFamily(), Font.PLAIN, 24));
+		pnlTop.add(lblTop);
+		
+		JLabel lblTwitter = new JLabel(Constants.TWITTER, SwingConstants.RIGHT);
+		pnlTop.add(lblTwitter, "grow");
 	}
 	
 	private void initListeners() {
