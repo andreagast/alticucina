@@ -1,7 +1,8 @@
 package it.gas.altichierock.add;
 
 import it.gas.altichierock.database.DatabaseHandler;
-import it.gas.altichierock.database.Item;
+import it.gas.altichierock.database.entities.Component;
+import it.gas.altichierock.database.entities.Product;
 
 import java.util.List;
 
@@ -15,28 +16,66 @@ public class AddLogic {
 		em = DatabaseHandler.getInstance().getEntityManager();
 	}
 
-	public List<Item> getItems() {
-		TypedQuery<Item> q = em.createNamedQuery("item.ordered.all", Item.class);
+	public List<Product> getProducts() {
+		TypedQuery<Product> q = em.createNamedQuery("item.ordered.all", Product.class);
 		return q.getResultList();
 	}
 	
-	public void addItem(String descr, float price) {
-		Item i = new Item();
-		i.setDescription(descr);
-		i.setPrice(price);
-		i.setDeprecated(false);
+	public Product getProduct(int id) {
+		return em.find(Product.class, id);
+	}
+	
+	public void addProduct(String descr, float price) {
 		em.getTransaction().begin();
+		Product i = new Product();
+		i.setDescription(descr);
+		i.setBasePrice(price);
 		em.persist(i);
 		em.getTransaction().commit();
 	}
 	
-	public void changeEnabled(int id, boolean b) {
-		TypedQuery<Item> q = em.createNamedQuery("item.search", Item.class);
-		q.setParameter("id", id);
-		Item item = q.getSingleResult();
-		item.setDeprecated(! b);
+	public void removeProduct(int id) {
 		em.getTransaction().begin();
-		em.merge(item);
+		Product p = em.find(Product.class, id);
+		if (p != null)
+			em.remove(p);
+		em.getTransaction().commit();
+	}
+	
+	public void editProduct(Product p) {
+		em.getTransaction().begin();
+		em.merge(p);
+		em.getTransaction().commit();
+	}
+	
+	public void refreshProduct(Product p) {
+		em.getTransaction().begin();
+		em.refresh(p);
+		em.getTransaction().commit();
+	}
+	
+	public void addComponent(Product p, String descr, float price) {
+		em.getTransaction().begin();
+		Component c = new Component();
+		c.setDescription(descr);
+		c.setPrice(price);
+		em.persist(c);
+		p.getComponents().add(c);
+		em.merge(p);
+		em.getTransaction().commit();
+	}
+	
+	public void editComponent(Component e) {
+		em.getTransaction().begin();
+		em.merge(e);
+		em.getTransaction().commit();
+	}
+	
+	public void removeComponent(int id) {
+		em.getTransaction().begin();
+		Component c = em.find(Component.class, id);
+		if (c != null)
+			em.remove(c);
 		em.getTransaction().commit();
 	}
 	

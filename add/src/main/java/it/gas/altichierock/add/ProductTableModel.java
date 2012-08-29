@@ -1,24 +1,23 @@
 package it.gas.altichierock.add;
 
-import it.gas.altichierock.database.Item;
+import it.gas.altichierock.database.entities.Product;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-public class AddTableModel extends AbstractTableModel {
+public class ProductTableModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-	private List<Item> l;
+	private List<Product> l;
 	
-	public AddTableModel() {
+	public ProductTableModel(List<Product> l) {
 		super();
-		l = new ArrayList<Item>();
+		this.l = l;
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return 2;
 	}
 
 	@Override
@@ -32,11 +31,9 @@ public class AddTableModel extends AbstractTableModel {
 	public String getColumnName(int arg0) {
 		switch (arg0) {
 		case 0:
-			return "id";
-		case 1:
 			return "description";
-		case 2:
-			return "price";
+		case 1:
+			return "basePrice";
 		default:
 			return "NaN";
 		}
@@ -46,13 +43,11 @@ public class AddTableModel extends AbstractTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return Integer.class;
-		case 1:
 			return String.class;
-		case 2:
+		case 1:
 			return Float.class;
-		case 3:
-			return Boolean.class;
+		case 2:
+			return Integer.class; //hidden id
 		default:
 			return Object.class;
 		}
@@ -60,29 +55,18 @@ public class AddTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
+		if (l == null)
+			return "";
 		switch (arg1) {
 		case 0:
-			if (l != null)
-				return l.get(arg0).getId();
-			return 0;
+			return l.get(arg0).getDescription();
 		case 1:
-			if (l != null)
-				return l.get(arg0).getDescription();
-			return "lol";
+			return l.get(arg0).getBasePrice();
 		case 2:
-			if (l != null)
-				return l.get(arg0).getPrice();
-			return 0;
-		case 3:
-			return ! l.get(arg0).isDeprecated();
+			return l.get(arg0).getId();
 		default:
 			return "";
 		}
-	}
-	
-	public void setData(List<Item> l) {
-		this.l = l;
-		fireTableDataChanged();
 	}
 
 }
