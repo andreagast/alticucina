@@ -1,7 +1,7 @@
 package it.gas.altichierock.order;
 
 import it.gas.altichierock.database.DatabaseHandler;
-import it.gas.altichierock.database.OrderTicket;
+import it.gas.altichierock.database.entities.Ticket;
 
 import java.util.List;
 
@@ -20,12 +20,12 @@ public class OrderLogic {
 		tx = dh.getTransaction();
 	}
 	
-	public List<OrderTicket> getNonCompletedOrders() {
-		TypedQuery<OrderTicket> q = em.createNamedQuery("order.notcomplete", OrderTicket.class);
+	public List<Ticket> getNonCompletedOrders() {
+		TypedQuery<Ticket> q = em.createNamedQuery("order.notcomplete", Ticket.class);
 		return q.getResultList();
 	}
 	
-	public void markAsCompleted(OrderTicket t) {
+	public void markAsCompleted(Ticket t) {
 		tx.begin();
 		t.setCompleted(true);
 		em.merge(t);

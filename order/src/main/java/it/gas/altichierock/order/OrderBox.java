@@ -1,14 +1,14 @@
 package it.gas.altichierock.order;
 
+import it.gas.altichierock.database.entities.Ticket;
+import it.gas.altichierock.database.entities.TicketContent;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import it.gas.altichierock.database.Detail;
-import it.gas.altichierock.database.OrderTicket;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,13 +20,13 @@ import net.miginfocom.swing.MigLayout;
 
 public class OrderBox extends JComponent implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	private OrderTicket order;
+	private Ticket order;
 	private JButton btnCompleted;
 	private JLabel lblId;
 	
 	private List<OrderBoxListener> listeners;
 	
-	public OrderBox(OrderTicket order) {
+	public OrderBox(Ticket order) {
 		this.order = order;
 		listeners = new ArrayList<OrderBoxListener>();
 		initComponents();
@@ -41,8 +41,8 @@ public class OrderBox extends JComponent implements ActionListener {
 		//NORTH
 		
 		JPanel top = new JPanel(new MigLayout());
-		lblId = new JLabel(order.getId().getCreated() + " - " +
-				order.getId().getId());
+		lblId = new JLabel(order.getCreateTime() + " - " +
+				order.getId());
 		Font f = lblId.getFont();
 		f = new Font(f.getFamily(), Font.BOLD, f.getSize());
 		lblId.setFont(f);
@@ -71,17 +71,21 @@ public class OrderBox extends JComponent implements ActionListener {
 	}
 	
 	private void fillDetail() {
-		List<Detail> l = order.getDetail();
+		List<TicketContent> l = order.getContent();
 		for (int i = 0; i < l.size(); i++) {
-			add(new JLabel("" + l.get(i).getQuantity()), "split 2");
-			add(new JLabel(l.get(i).getItemId().getDescription()), "growx");
+			TicketContent tc = l.get(i);
+			String quantity = "";
+			if (tc.getQuantity() != 0)
+				quantity = Integer.toString(tc.getQuantity());
+			add(new JLabel(quantity), "split 2");
+			add(new JLabel(tc.getDescription()), "growx");
 		}
 		add(Box.createGlue(), "push, grow");
 	}
 	
 	public int getId() {
 		if (order != null)
-			return order.getId().getId();
+			return order.getId();
 		return -1;
 	}
 	
@@ -98,7 +102,7 @@ public class OrderBox extends JComponent implements ActionListener {
 			listeners.get(i).orderCompleted(this);
 	}
 	
-	public OrderTicket getOrderTicket() {
+	public Ticket getTicket() {
 		return order;
 	}
 

@@ -1,6 +1,6 @@
 package it.gas.altichierock.order;
 
-import it.gas.altichierock.database.OrderTicket;
+import it.gas.altichierock.database.entities.Ticket;
 
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -63,7 +63,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 	public void orderCompleted(OrderBox ob) {
 		remove(ob);
 		boxes.remove(ob);
-		logic.markAsCompleted(ob.getOrderTicket());
+		logic.markAsCompleted(ob.getTicket());
 		//if there's no subcomponent, validate does nothing,
 		//leaving the last box (just removed) draw on the screen
 		if (boxes.size() == 0)
@@ -89,10 +89,10 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		try {
 			while (! Thread.interrupted()) {
 				//retrieve the orders not completed
-				List<OrderTicket> l = logic.getNonCompletedOrders();
+				List<Ticket> l = logic.getNonCompletedOrders();
 				//remove the one already displayed
 				for (int i = 0; i < boxes.size(); i++)
-					l.remove(boxes.get(i).getOrderTicket());
+					l.remove(boxes.get(i).getTicket());
 				//display the new ones
 				addOrder(l);
 				Thread.sleep(5000);
@@ -104,7 +104,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		log.debug("Refresh thread stopped.");
 	}
 	
-	private void addOrder(final List<OrderTicket> l) {
+	private void addOrder(final List<Ticket> l) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				for (int i = 0; i < l.size(); i++) {
@@ -118,7 +118,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 		});
 	}
 
-	private OrderBox makeOrderBox(OrderTicket t) {
+	private OrderBox makeOrderBox(Ticket t) {
 		//just wrap the order in a box and add the listener
 		OrderBox ob = new OrderBox(t);
 		ob.addListener(this);
