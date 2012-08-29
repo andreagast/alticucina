@@ -1,18 +1,18 @@
 package it.gas.altichierock.display;
 
+import it.gas.altichierock.database.entities.Ticket;
+
 import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import it.gas.altichierock.database.OrderTicket;
-
 public class DisplayBox extends JLabel {
 	private static final long serialVersionUID = 1L;
-	private OrderTicket ticket;
+	private Ticket ticket;
 	
-	public DisplayBox(OrderTicket t) {
-		super("" + t.getId().getId(), SwingConstants.CENTER);
+	public DisplayBox(Ticket t) {
+		super("" + t.getId(), SwingConstants.CENTER);
 		this.ticket = t;
 		
 		//set the font
@@ -20,7 +20,7 @@ public class DisplayBox extends JLabel {
 		setFont(f);
 	}
 	
-	public OrderTicket getOrderTicket() {
+	public Ticket getOrderTicket() {
 		return ticket;
 	}
 	

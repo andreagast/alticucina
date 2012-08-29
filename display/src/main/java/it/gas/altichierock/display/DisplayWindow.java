@@ -1,7 +1,7 @@
 package it.gas.altichierock.display;
 
 import it.gas.altichierock.database.Constants;
-import it.gas.altichierock.database.OrderTicket;
+import it.gas.altichierock.database.entities.Ticket;
 
 import java.awt.Font;
 import java.awt.Frame;
@@ -88,7 +88,7 @@ public class DisplayWindow extends JDialog implements Runnable {
 			t.interrupt();
 	}
 	
-	private void showTickets(final List<OrderTicket> l) {
+	private void showTickets(final List<Ticket> l) {
 		if (l.size() == 0)
 			return; //useless to start a thread for doing nothing
 		SwingUtilities.invokeLater(new Runnable() {
@@ -109,7 +109,7 @@ public class DisplayWindow extends JDialog implements Runnable {
 	public void run() {
 		try {
 			while (! Thread.interrupted()) {
-				List<OrderTicket> l = logic.getCompletedNotServed();
+				List<Ticket> l = logic.getCompletedNotServed();
 				//remove duplicate
 				for (int i = 0; i < tickets.size(); i++)
 					l.remove(tickets.get(i).getOrderTicket());

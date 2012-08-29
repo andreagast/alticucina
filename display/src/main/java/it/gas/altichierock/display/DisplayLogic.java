@@ -6,18 +6,18 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import it.gas.altichierock.database.DatabaseHandler;
-import it.gas.altichierock.database.OrderTicket;
+import it.gas.altichierock.database.entities.Ticket;
 
 public class DisplayLogic {
 	private DatabaseHandler dh;
 	private EntityManager em;
-	
+
 	public DisplayLogic() {
 		dh = DatabaseHandler.getInstance();
 		em = dh.getEntityManager();
 	}
-	
-	public void markAsDisplayed(OrderTicket t) {
+
+	public void markAsDisplayed(Ticket t) {
 		if (t == null)
 			return;
 		dh.getTransaction().begin();
@@ -25,11 +25,11 @@ public class DisplayLogic {
 		em.merge(t);
 		dh.getTransaction().commit();
 	}
-	
-	public List<OrderTicket> getCompletedNotServed() {
-		TypedQuery<OrderTicket> q = em.createNamedQuery("order.notserved", OrderTicket.class);
+
+	public List<Ticket> getCompletedNotServed() {
+		TypedQuery<Ticket> q = em.createNamedQuery("order.notserved",
+				Ticket.class);
 		return q.getResultList();
 	}
-	
-	
+
 }
