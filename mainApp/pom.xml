@@ -19,12 +19,12 @@
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
 			<artifactId>insert</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
 			<artifactId>order</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
@@ -34,7 +34,7 @@
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
 			<artifactId>display</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
