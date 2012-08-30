@@ -41,7 +41,7 @@ public class OrderBox extends JComponent implements ActionListener {
 		//NORTH
 		
 		JPanel top = new JPanel(new MigLayout());
-		lblId = new JLabel(order.getCreateTime() + " - " +
+		lblId = new JLabel(order.getCreateDate() + " - " +
 				order.getId());
 		Font f = lblId.getFont();
 		f = new Font(f.getFamily(), Font.BOLD, f.getSize());
