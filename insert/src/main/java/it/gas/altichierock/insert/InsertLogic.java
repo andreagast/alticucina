@@ -1,13 +1,16 @@
 package it.gas.altichierock.insert;
 
 import it.gas.altichierock.database.DatabaseHandler;
-import it.gas.altichierock.database.Item;
-import it.gas.altichierock.database.OrderTicket;
+import it.gas.altichierock.database.entities.Product;
+import it.gas.altichierock.database.entities.Ticket;
+import it.gas.altichierock.database.entities.TicketContent;
 
-import java.util.ArrayList;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -15,39 +18,52 @@ import org.slf4j.LoggerFactory;
 
 public class InsertLogic {
 	private Logger log = LoggerFactory.getLogger(InsertLogic.class);
-	private List<Item> menu;
-	private DatabaseHandler handler;
-	
+	private DatabaseHandler dh;
+	private EntityManager em;
+	private EntityTransaction tx;
+
 	public InsertLogic() {
-		menu = new ArrayList<Item>();
-		handler = DatabaseHandler.getInstance();
+		dh = DatabaseHandler.getInstance();
+		em = dh.getEntityManager();
+		tx = dh.getTransaction();
+	}
+
+	public List<Product> getProducts() {
+		log.debug("getProducts()");
+		TypedQuery<Product> query = em.createNamedQuery("item.ordered.all",
+				Product.class);
+		return query.getResultList();
 	}
 	
-	public void refresh() {
-		TypedQuery<Item> q = handler.getEntityManager().createNamedQuery("item.ordered.enabled", Item.class);
-		menu = q.getResultList();
+	public int storeKeeper(ReceiptKeeper rk) {
+		tx.begin();
+		//get the id
+		TypedQuery<Integer> query = em.createNamedQuery("order.maxidtoday", Integer.class);
+		Integer id = query.getFirstResult();
+		if (id == null)
+			id = 0;
+		else
+			id++;
+		//get the time
+		long d = System.currentTimeMillis();
+		//make the ticket
+		Ticket t = new Ticket();
+		t.setTicketid(id);
+		t.setCreateDate(new Date(d));
+		t.setCreateTime(new Time(d));
+		//hoping for tha best! now with the rest
+		for (int i = 0; i < rk.getSize(); i++) {
+			TicketContent tc = new TicketContent();
+			tc.setLineNumber(i);
+			tc.setQuantity(rk.getQuantity(i));
+			tc.setDescription(rk.getDescription(i));
+			tc.setPrice(rk.getPrice(i));
+			em.persist(tc); //content
+			t.getContent().add(tc);
+		}
+		em.persist(t); //ticket
+		tx.commit();
+		return id;
 	}
-	
-	public List<Item> getMenu() {
-		return menu;
-	}
-	
-	public void save(OrderTicket o) {
-		handler.getTransaction().begin();
-		EntityManager em = handler.getEntityManager();
-		//retrieve the highest id used
-		TypedQuery<Integer> q = em.createNamedQuery("order.maxidtoday", Integer.class);
-		Integer max = q.getSingleResult();
-		if (max == null) //first order of the day!
-			max = -1;
-		log.debug("MAX->{}", max);
-		o.getId().setId(max+1);
-		//persist every child
-		for (int i = 0; i < o.getDetail().size(); i++)
-			em.persist(o.getDetail().get(i));
-		//save and commit
-		em.persist(o);
-		handler.getTransaction().commit();
-	}
-	
+
 }
