@@ -3,6 +3,7 @@ package it.gas.altichierock.database.entities;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -36,6 +37,10 @@ public class Ticket implements Serializable {
 	@OneToMany
 	@JoinColumn(name = "ticketid")
 	private List<TicketContent> content;
+	
+	public Ticket() {
+		content = new ArrayList<TicketContent>();
+	}
 
 	public int getId() {
 		return id;

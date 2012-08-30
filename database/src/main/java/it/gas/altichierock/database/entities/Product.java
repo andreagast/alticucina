@@ -1,6 +1,7 @@
 package it.gas.altichierock.database.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -30,6 +31,10 @@ public class Product implements Serializable {
 	@OneToMany
 	@JoinColumn(name = "productid")
 	private List<Component> components;
+	
+	public Product() {
+		components = new ArrayList<Component>();
+	}
 
 	public int getId() {
 		return id;
