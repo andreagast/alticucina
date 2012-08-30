@@ -42,7 +42,7 @@ public class OrderBox extends JComponent implements ActionListener {
 		
 		JPanel top = new JPanel(new MigLayout());
 		lblId = new JLabel(order.getCreateDate() + " - " +
-				order.getId());
+				order.getTicketid());
 		Font f = lblId.getFont();
 		f = new Font(f.getFamily(), Font.BOLD, f.getSize());
 		lblId.setFont(f);

@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -39,11 +40,12 @@ public class InsertLogic {
 		tx.begin();
 		//get the id
 		TypedQuery<Integer> query = em.createNamedQuery("order.maxidtoday", Integer.class);
-		Integer id = query.getFirstResult();
-		if (id == null)
+		int id = 0;
+		try {
+			id = query.getSingleResult() + 1;
+		} catch (NoResultException e) {
 			id = 0;
-		else
-			id++;
+		}
 		//get the time
 		long d = System.currentTimeMillis();
 		//make the ticket
