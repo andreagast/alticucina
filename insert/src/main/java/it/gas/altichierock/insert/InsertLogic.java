@@ -40,11 +40,11 @@ public class InsertLogic {
 		tx.begin();
 		//get the id
 		TypedQuery<Integer> query = em.createNamedQuery("order.maxidtoday", Integer.class);
-		int id = 0;
+		int id = 1;
 		try {
 			id = query.getSingleResult() + 1;
 		} catch (NoResultException e) {
-			id = 0;
+			id = 1;
 		}
 		//get the time
 		long d = System.currentTimeMillis();
