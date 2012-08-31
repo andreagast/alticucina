@@ -40,9 +40,13 @@ public class InsertLogic {
 		tx.begin();
 		//get the id
 		TypedQuery<Integer> query = em.createNamedQuery("order.maxidtoday", Integer.class);
-		int id = 1;
+		Integer id;
 		try {
-			id = query.getSingleResult() + 1;
+			id = query.getSingleResult();
+			if (id == null)
+				id = 1;
+			else
+				id = id + 1;
 		} catch (NoResultException e) {
 			id = 1;
 		}

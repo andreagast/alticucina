@@ -112,7 +112,7 @@ public class InsertWindow extends JFrame implements ActionListener,
 			if (keeper.getQuantity(i) != 0)
 				total += keeper.getQuantity(i) * keeper.getPrice(i);
 		}
-		lblTotalPrice.setText("€" + total);
+		lblTotalPrice.setText("€ " + total);
 	}
 
 	@Override
@@ -136,6 +136,8 @@ public class InsertWindow extends JFrame implements ActionListener,
 		} else if (e.getSource() == btnConfirm) {
 			int number = logic.storeKeeper(keeper);
 			JOptionPane.showMessageDialog(this, "Number: " + number);
+			keeper.clear();
+			lblTotalPrice.setText("€ 0.00");
 		}
 	}
 
