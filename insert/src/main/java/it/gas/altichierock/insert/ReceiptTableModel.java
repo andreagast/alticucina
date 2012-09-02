@@ -94,7 +94,7 @@ public class ReceiptTableModel extends AbstractTableModel {
 			keeper.setDescription(rowIndex, (String) aValue);
 			break;
 		case 2:
-			keeper.setPrice(rowIndex, (Float) aValue);
+			keeper.setPrice(rowIndex, (Double) aValue);
 			break;
 		default:
 			//do nada
