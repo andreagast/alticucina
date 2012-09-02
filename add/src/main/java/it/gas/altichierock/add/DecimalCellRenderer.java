@@ -9,19 +9,14 @@ public class DecimalCellRenderer extends DefaultTableCellRenderer {
 	private DecimalFormat format;	
 	
 	public DecimalCellRenderer() {
-		//format = new DecimalFormat("0.00");
+		format = new DecimalFormat("0.00");
 	}
 
 	@Override
 	protected void setValue(Object arg0) {
-		if (format == null)
-			format = new DecimalFormat("0.00");
 		if (arg0 == null)
 			setText("");
-		System.out.println(arg0.getClass().getName());
-		String str = format.format(arg0);
-		//System.out.println(str);
-		setText(str);
+		setText(format.format(arg0));
 	}
 
 	
