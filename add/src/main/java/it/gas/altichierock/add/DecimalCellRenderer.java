@@ -18,8 +18,10 @@ public class DecimalCellRenderer extends DefaultTableCellRenderer {
 			format = new DecimalFormat("0.00");
 		if (arg0 == null)
 			setText("");
-		setText(format.format(arg0));
-		System.out.println("lol");
+		System.out.println(arg0.getClass().getName());
+		String str = format.format(arg0);
+		//System.out.println(str);
+		setText(str);
 	}
 
 	

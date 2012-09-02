@@ -20,8 +20,6 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
-import javax.swing.table.TableColumnModel;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,8 +44,7 @@ public class AddWindow extends JFrame implements ActionListener {
 
 		logic = new AddLogic();
 		tblMenu.setModel(new ProductTableModel(logic.getProducts()));
-		TableColumnModel tcm = tblMenu.getColumnModel();
-		tcm.getColumn(1).setCellRenderer(new DecimalCellRenderer());
+		tblMenu.setDefaultRenderer(Double.class, new DecimalCellRenderer());
 	}
 
 	private void initComponents() {

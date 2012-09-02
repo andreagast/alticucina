@@ -45,6 +45,8 @@ public class AddProductPanel extends JPanel {
 		Double d;
 		if (value instanceof Long) {
 			d = Double.valueOf(Long.toString((Long) value));
+		} else if (value instanceof Integer) {
+			d = Double.valueOf(Integer.toString((Integer) value));
 		} else { //Double
 			d = (Double) value;
 		}

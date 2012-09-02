@@ -20,8 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
-import javax.swing.table.TableColumnModel;
-
 import net.miginfocom.swing.MigLayout;
 
 public class EditProductDialog extends JDialog implements ActionListener {
@@ -45,8 +43,8 @@ public class EditProductDialog extends JDialog implements ActionListener {
 		// INIT
 		tblComponents
 				.setModel(new ComponentTableModel(product.getComponents()));
-		TableColumnModel tcm = tblComponents.getColumnModel();
-		tcm.getColumn(1).setCellRenderer(new DecimalCellRenderer());
+		tblComponents.setDefaultRenderer(Double.class,
+				new DecimalCellRenderer());
 	}
 
 	private void initComponents() {
