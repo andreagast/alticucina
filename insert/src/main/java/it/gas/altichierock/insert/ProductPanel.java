@@ -128,14 +128,19 @@ public class ProductPanel extends JPanel implements ActionListener {
 		} else if (arg0.getSource() instanceof JCheckBox) {//must be a component
 			//recalculate total price
 			Iterator<JCheckBox> iter = mapper.keySet().iterator();
-			totalPrice = product.getBasePrice();
+			double newPrice = product.getBasePrice();
+			int selected = 0;
 			while (iter.hasNext()) {
 				JCheckBox chk = iter.next();
-				if (chk.isSelected())
-					totalPrice += mapper.get(chk).getPrice();
+				if (chk.isSelected()) {
+					newPrice += mapper.get(chk).getPrice();
+					selected ++;
+				}
 			}
-			//update label
-			updateTitleText();
+			if (selected <= 2) { //TODO: find a way to customize this!
+				totalPrice = newPrice;
+				updateTitleText(); //update label
+			}
 		}
 	}
 	
@@ -149,21 +154,9 @@ public class ProductPanel extends JPanel implements ActionListener {
 			listeners.get(i).onProductDeselected(this);
 	}
 	
-	/*private void fireOnComponentSelected(Component c) {
-		for (int i = 0; i < listeners.size(); i++)
-			listeners.get(i).onComponentSelected(product, c);
-	}
-	
-	private void fireOnComponentDeselected(Component c) {
-		for (int i = 0; i < listeners.size(); i++)
-			listeners.get(i).onComponentDeselected(product, c);
-	}*/
-	
 	public interface OnSelectionListener {
 		public void onProductSelected(ProductPanel pp);
 		public void onProductDeselected(ProductPanel pp);
-		//public void onComponentSelected(Product p, Component c);
-		//public void onComponentDeselected(Product p, Component c);
 	}
 	
 }
