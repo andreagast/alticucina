@@ -22,6 +22,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
 import net.miginfocom.swing.MigLayout;
 
 import org.slf4j.Logger;
@@ -110,6 +113,12 @@ public class InsertWindow extends JFrame implements ActionListener,
 		btnMinus.addActionListener(this);
 		btnInsert.addActionListener(this);
 		btnConfirm.addActionListener(this);
+		tblReceipt.getModel().addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent arg0) {
+				updateTotalPrice();
+			}
+		});
 	}
 	
 	private void updateTotalPrice() {
@@ -138,7 +147,6 @@ public class InsertWindow extends JFrame implements ActionListener,
 			for (int i = 0; i < compos.length; i++)
 				keeper.add(0, compos[i], 0);
 			keeper.add(0,  "", 0); //white line
-			updateTotalPrice(); //update total
 		} else if (e.getSource() == btnConfirm) {
 			int number = logic.storeKeeper(keeper);
 			JOptionPane.showMessageDialog(this, "Number: " + number);
