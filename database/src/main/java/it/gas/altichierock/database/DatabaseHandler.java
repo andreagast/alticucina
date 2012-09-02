@@ -46,8 +46,12 @@ public class DatabaseHandler {
 			p.put("database.ip", "localhost");
 		}
 		//connect
+		StringBuilder url = new StringBuilder();
+		url.append("jdbc:derby://");
+		url.append(p.getProperty("database.ip"));
+		url.append(":1527/altichierock;create=true");
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("javax.persistence.jdbc.url", "jdbc:derby://" + p.getProperty("database.ip") + ":1527/altichierock;create=true");
+		map.put("javax.persistence.jdbc.url", url.toString());
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("altichierockPU", map);
 		em = emf.createEntityManager();
 		tx = em.getTransaction();
