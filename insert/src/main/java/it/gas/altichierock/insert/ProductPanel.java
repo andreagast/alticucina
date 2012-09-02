@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ public class ProductPanel extends JPanel implements ActionListener {
 	private HashMap<JCheckBox, Component> mapper; //map checkboxes to components
 	private List<OnSelectionListener> listeners;
 	private double totalPrice;
+	private DecimalFormat decimal;
 
 	private JCheckBox chkProduct;
 	
@@ -30,6 +32,7 @@ public class ProductPanel extends JPanel implements ActionListener {
 		this.product = p;
 		listeners = new ArrayList<OnSelectionListener>();
 		mapper = new HashMap<JCheckBox, Component>();
+		decimal = new DecimalFormat("0.00");
 		totalPrice = product.getBasePrice();
 		initComponents();
 		initListeners();
@@ -106,8 +109,8 @@ public class ProductPanel extends JPanel implements ActionListener {
 		//the title IS the text in the product checkbox.
 		StringBuilder build = new StringBuilder();
 		build.append(product.getDescription());
-		build.append(" (€");
-		build.append(Double.toString(totalPrice));
+		build.append(" (€ ");
+		build.append(decimal.format(totalPrice));
 		build.append(")");
 		chkProduct.setText(build.toString());
 	}
