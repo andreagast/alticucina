@@ -6,19 +6,20 @@ import it.gas.altichierock.insert.ProductPanel.OnSelectionListener;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 import net.miginfocom.swing.MigLayout;
@@ -34,12 +35,14 @@ public class InsertWindow extends JFrame implements ActionListener,
 	private List<ProductPanel> panels;
 	private ReceiptKeeper keeper;
 	private ProductPanel ppSelected;
+	
+	private DecimalFormat decimal;
 
 	private JScrollPane slpContainer, slpReceipt;
 	private JPanel pnlContainer;
 	private JButton btnInsert, btnPlus, btnMinus, btnConfirm;
 	private JTable tblReceipt;
-	private JTextField txtQuantity;
+	private JFormattedTextField txtQuantity;
 	private JLabel lblTotalPrice;
 
 	public InsertWindow(Frame f) {
@@ -47,6 +50,8 @@ public class InsertWindow extends JFrame implements ActionListener,
 		logic = new InsertLogic();
 		panels = new ArrayList<ProductPanel>();
 		keeper = new ReceiptKeeper();
+		
+		decimal = new DecimalFormat("0.00");
 		
 		setTitle("Make-a-menu!");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -81,7 +86,8 @@ public class InsertWindow extends JFrame implements ActionListener,
 		filler.add(btnInsert, "grow");
 
 		btnPlus = new JButton("+");
-		txtQuantity = new JTextField("1");
+		txtQuantity = new JFormattedTextField(new DecimalFormat("0"));
+		txtQuantity.setValue(new Integer(1));
 		btnMinus = new JButton("-");
 		filler.add(btnPlus, "split 3");
 		filler.add(txtQuantity, "grow");
@@ -112,7 +118,7 @@ public class InsertWindow extends JFrame implements ActionListener,
 			if (keeper.getQuantity(i) != 0)
 				total += keeper.getQuantity(i) * keeper.getPrice(i);
 		}
-		lblTotalPrice.setText("€ " + total);
+		lblTotalPrice.setText("€ " + decimal.format(total));
 	}
 
 	@Override
@@ -158,14 +164,6 @@ public class InsertWindow extends JFrame implements ActionListener,
 		ppSelected = null;
 		btnInsert.setEnabled(false);
 	}
-
-	/*@Override
-	public void onComponentSelected(Product product, Component c) {
-	}
-
-	@Override
-	public void onComponentDeselected(Product p, Component c) {
-	}*/
 
 	private class Worker extends SwingWorker<List<Product>, Void> {
 		public static final int REFRESH = 0;
