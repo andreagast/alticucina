@@ -1,5 +1,8 @@
 package it.gas.altichierock.add;
 
+import java.text.DecimalFormat;
+
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -8,7 +11,9 @@ import net.miginfocom.swing.MigLayout;
 
 public class AddProductPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private JTextField txtDescription, txtPrice;
+	//private JTextField txtDescription, txtPrice;
+	private JTextField txtDescription;
+	private JFormattedTextField txtPrice;
 	
 	public AddProductPanel() {
 		initComponents();
@@ -18,7 +23,11 @@ public class AddProductPanel extends JPanel {
 		setLayout(new MigLayout("wrap 2, ins 0"));
 		
 		txtDescription = new JTextField(25);		
-		txtPrice = new JTextField(new FloatDocument(), "0.0", 25);
+		//txtPrice = new JTextField(new FloatDocument(), "0.0", 25);
+		DecimalFormat format = new DecimalFormat("0.00");
+		txtPrice = new JFormattedTextField(format);
+		txtPrice.setColumns(25);
+		txtPrice.setValue(new Float("0.00"));
 		
 		add(new JLabel("Description:"));
 		add(txtDescription);
@@ -32,9 +41,15 @@ public class AddProductPanel extends JPanel {
 	}
 	
 	public float getPrice() {
-		if (txtPrice.getText().compareTo("") == 0)
-			return 0;
-		return Float.parseFloat(txtPrice.getText());
+		//TODO: find a better way
+		Object value = txtPrice.getValue();
+		float f = 0;
+		if (value instanceof Long) {
+			f = Float.valueOf(Long.toString((Long) value));
+		} else { //Double
+			f = Float.valueOf(Double.toString((Double) value));
+		}
+		return f;
 	}
 	
 	public void setDescription(String str) {
@@ -42,6 +57,7 @@ public class AddProductPanel extends JPanel {
 	}
 	
 	public void setPrice(float f) {
-		txtPrice.setText(Float.toString(f));
+		//txtPrice.setText(Float.toString(f));
+		txtPrice.setValue(f);
 	}
 }
