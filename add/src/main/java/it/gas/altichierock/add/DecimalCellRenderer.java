@@ -16,7 +16,8 @@ public class DecimalCellRenderer extends DefaultTableCellRenderer {
 	protected void setValue(Object arg0) {
 		if (arg0 == null)
 			setText("");
-		setText(format.format(arg0));
+		else
+			setText(format.format(arg0));
 	}
 
 	
