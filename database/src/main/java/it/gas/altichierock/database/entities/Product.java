@@ -27,7 +27,7 @@ public class Product implements Serializable {
 	@Column(nullable = false, length = 255)
 	private String description;
 	@Column(nullable = false)
-	private float basePrice;
+	private double basePrice;
 	@OneToMany
 	@JoinColumn(name = "productid")
 	private List<Component> components;
@@ -52,11 +52,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public float getBasePrice() {
+	public double getBasePrice() {
 		return basePrice;
 	}
 
-	public void setBasePrice(float basePrice) {
+	public void setBasePrice(double basePrice) {
 		this.basePrice = basePrice;
 	}
 

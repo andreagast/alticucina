@@ -18,7 +18,7 @@ public class Component implements Serializable {
 	@Column(nullable = false, length = 255)
 	private String description;
 	@Column(nullable = false)
-	private float price;
+	private double price;
 
 	public int getId() {
 		return id;
@@ -36,11 +36,11 @@ public class Component implements Serializable {
 		this.description = description;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

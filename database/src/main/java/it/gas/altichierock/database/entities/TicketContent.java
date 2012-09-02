@@ -18,7 +18,7 @@ public class TicketContent implements Serializable {
 	private int lineNumber; // generated programmatically
 	@Column(length = 255, nullable = false)
 	private String description;
-	private float price;
+	private double price;
 	private int quantity;
 
 	public int getId() {
@@ -45,11 +45,11 @@ public class TicketContent implements Serializable {
 		this.description = description;
 	}
 
-	public float getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
