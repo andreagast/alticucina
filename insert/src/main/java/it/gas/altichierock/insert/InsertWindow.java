@@ -21,6 +21,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
+import javax.swing.table.TableColumnModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -92,6 +93,8 @@ public class InsertWindow extends JFrame implements ActionListener,
 		filler.add(lblTotalPrice, "grow");
 
 		tblReceipt = new JTable(keeper.getModel());
+		TableColumnModel tcm = tblReceipt.getColumnModel();
+		tcm.getColumn(2).setCellRenderer(new DecimalCellRenderer());
 		slpReceipt = new JScrollPane(tblReceipt);
 		filler.add(slpReceipt, "grow, push");
 
@@ -107,7 +110,7 @@ public class InsertWindow extends JFrame implements ActionListener,
 	}
 	
 	private void updateTotalPrice() {
-		float total = 0;
+		double total = 0;
 		for (int i = 0; i < keeper.getSize(); i++) {
 			if (keeper.getQuantity(i) != 0)
 				total += keeper.getQuantity(i) * keeper.getPrice(i);

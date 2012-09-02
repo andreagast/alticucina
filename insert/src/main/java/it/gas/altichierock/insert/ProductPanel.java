@@ -22,7 +22,7 @@ public class ProductPanel extends JPanel implements ActionListener {
 	private Product product;
 	private HashMap<JCheckBox, Component> mapper; //map checkboxes to components
 	private List<OnSelectionListener> listeners;
-	private float totalPrice;
+	private double totalPrice;
 
 	private JCheckBox chkProduct;
 	
@@ -79,7 +79,7 @@ public class ProductPanel extends JPanel implements ActionListener {
 		return product.getDescription();
 	}
 	
-	public float getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 	
@@ -107,7 +107,7 @@ public class ProductPanel extends JPanel implements ActionListener {
 		StringBuilder build = new StringBuilder();
 		build.append(product.getDescription());
 		build.append(" (€");
-		build.append(Float.toString(totalPrice));
+		build.append(Double.toString(totalPrice));
 		build.append(")");
 		chkProduct.setText(build.toString());
 	}

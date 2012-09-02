@@ -46,7 +46,7 @@ public class ReceiptTableModel extends AbstractTableModel {
 		case 1:
 			return String.class;
 		case 2:
-			return Float.class;
+			return Double.class;
 		default:
 			return super.getColumnClass(columnIndex);
 		}
