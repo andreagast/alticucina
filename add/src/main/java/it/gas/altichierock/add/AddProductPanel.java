@@ -23,11 +23,10 @@ public class AddProductPanel extends JPanel {
 		setLayout(new MigLayout("wrap 2, ins 0"));
 		
 		txtDescription = new JTextField(25);		
-		//txtPrice = new JTextField(new FloatDocument(), "0.0", 25);
 		DecimalFormat format = new DecimalFormat("0.00");
 		txtPrice = new JFormattedTextField(format);
 		txtPrice.setColumns(25);
-		txtPrice.setValue(new Float("0.00"));
+		txtPrice.setValue(0);
 		
 		add(new JLabel("Description:"));
 		add(txtDescription);
@@ -40,24 +39,23 @@ public class AddProductPanel extends JPanel {
 		return txtDescription.getText();
 	}
 	
-	public float getPrice() {
+	public double getPrice() {
 		//TODO: find a better way
 		Object value = txtPrice.getValue();
-		float f = 0;
+		Double d;
 		if (value instanceof Long) {
-			f = Float.valueOf(Long.toString((Long) value));
+			d = Double.valueOf(Long.toString((Long) value));
 		} else { //Double
-			f = Float.valueOf(Double.toString((Double) value));
+			d = (Double) value;
 		}
-		return f;
+		return d;
 	}
 	
 	public void setDescription(String str) {
 		txtDescription.setText(str);
 	}
 	
-	public void setPrice(float f) {
-		//txtPrice.setText(Float.toString(f));
+	public void setPrice(double f) {
 		txtPrice.setValue(f);
 	}
 }

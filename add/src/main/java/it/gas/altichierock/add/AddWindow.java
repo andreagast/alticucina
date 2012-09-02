@@ -20,6 +20,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
+import javax.swing.table.TableColumnModel;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,8 @@ public class AddWindow extends JFrame implements ActionListener {
 
 		logic = new AddLogic();
 		tblMenu.setModel(new ProductTableModel(logic.getProducts()));
+		TableColumnModel tcm = tblMenu.getColumnModel();
+		tcm.getColumn(1).setCellRenderer(new DecimalCellRenderer());
 	}
 
 	private void initComponents() {
@@ -106,7 +110,7 @@ public class AddWindow extends JFrame implements ActionListener {
 		int res = JOptionPane.showConfirmDialog(this, pnl, Constants.TITLE, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			String descr = pnl.getDescription();
-			float price = pnl.getPrice();
+			double price = pnl.getPrice();
 			if (descr.compareTo("") != 0) {
 				Worker w = new Worker(Worker.ADD);
 				w.addParam(descr);
@@ -173,7 +177,7 @@ public class AddWindow extends JFrame implements ActionListener {
 				return new ProductTableModel(l);
 			case ADD:
 				String descr = (String) params.get(0);
-				float price = (Float) params.get(1);
+				double price = (Double) params.get(1);
 				logic.addProduct(descr, price);
 				break;
 			case EDIT:

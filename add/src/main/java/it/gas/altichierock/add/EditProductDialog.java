@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
+import javax.swing.table.TableColumnModel;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -44,6 +45,8 @@ public class EditProductDialog extends JDialog implements ActionListener {
 		// INIT
 		tblComponents
 				.setModel(new ComponentTableModel(product.getComponents()));
+		TableColumnModel tcm = tblComponents.getColumnModel();
+		tcm.getColumn(1).setCellRenderer(new DecimalCellRenderer());
 	}
 
 	private void initComponents() {
@@ -116,7 +119,7 @@ public class EditProductDialog extends JDialog implements ActionListener {
 				|| pnl.getDescription().compareTo("") == 0)
 			return;
 		String descr = pnl.getDescription();
-		float price = pnl.getPrice();
+		double price = pnl.getPrice();
 		lock(true);
 		Worker w = new Worker(Worker.ADD);
 		w.addParam(descr);
@@ -164,7 +167,7 @@ public class EditProductDialog extends JDialog implements ActionListener {
 				logic.refreshProduct(product);
 			case ADD:
 				String descr = (String) params.get(0);
-				float price = (Float) params.get(1);
+				double price = (Double) params.get(1);
 				logic.addComponent(product, descr, price);
 				break;
 			case EDIT:

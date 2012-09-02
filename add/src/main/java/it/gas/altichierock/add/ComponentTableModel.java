@@ -44,7 +44,7 @@ public class ComponentTableModel extends AbstractTableModel {
 		case 0:
 			return String.class;
 		case 1:
-			return Float.class;
+			return Double.class;
 		case 2:
 			return Integer.class; //hidden id
 		default:

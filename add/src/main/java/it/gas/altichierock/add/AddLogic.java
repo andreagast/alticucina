@@ -25,7 +25,7 @@ public class AddLogic {
 		return em.find(Product.class, id);
 	}
 	
-	public void addProduct(String descr, float price) {
+	public void addProduct(String descr, double price) {
 		em.getTransaction().begin();
 		Product i = new Product();
 		i.setDescription(descr);
@@ -54,7 +54,7 @@ public class AddLogic {
 		em.getTransaction().commit();
 	}
 	
-	public void addComponent(Product p, String descr, float price) {
+	public void addComponent(Product p, String descr, double price) {
 		em.getTransaction().begin();
 		Component c = new Component();
 		c.setDescription(descr);
