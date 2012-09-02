@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import net.miginfocom.swing.MigLayout;
 
-public class DisplayWindow extends JDialog implements Runnable {
+public class DisplayWindow extends JFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 	private Logger log = LoggerFactory.getLogger(DisplayWindow.class);
 	private DisplayLogic logic;
@@ -32,7 +32,7 @@ public class DisplayWindow extends JDialog implements Runnable {
 	private ArrayList<DisplayBox> tickets;
 
 	public DisplayWindow(Frame f) {
-		super(f, true);
+		//super(f, true);
 		setTitle("Displayer");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		initComponents();

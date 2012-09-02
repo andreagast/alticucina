@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import net.miginfocom.swing.MigLayout;
 
-public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
+public class OrderWindow extends JFrame implements OrderBoxListener, Runnable {
 	private static final long serialVersionUID = 1L;
 	private Logger log = LoggerFactory.getLogger(OrderWindow.class);
 	private Thread t;
@@ -26,7 +26,7 @@ public class OrderWindow extends JDialog implements OrderBoxListener, Runnable {
 	private List<OrderBox> boxes;
 	
 	public OrderWindow(Frame f) {
-		super(f, true);
+		//super(f, true);
 		setTitle("Show(er)");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		logic = new OrderLogic();
