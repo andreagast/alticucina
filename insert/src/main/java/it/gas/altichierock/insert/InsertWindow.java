@@ -43,7 +43,7 @@ public class InsertWindow extends JFrame implements ActionListener,
 
 	private JScrollPane slpContainer, slpReceipt;
 	private JPanel pnlContainer;
-	private JButton btnInsert, btnPlus, btnMinus, btnConfirm;
+	private JButton btnInsert, btnPlus, btnMinus, btnConfirm, btnAddLine, btnRemLine;
 	private JTable tblReceipt;
 	private JFormattedTextField txtQuantity;
 	private JLabel lblTotalPrice;
@@ -103,6 +103,12 @@ public class InsertWindow extends JFrame implements ActionListener,
 		tblReceipt.setDefaultRenderer(Double.class, new DecimalCellRenderer());
 		slpReceipt = new JScrollPane(tblReceipt);
 		filler.add(slpReceipt, "grow, push");
+		
+		btnAddLine = new JButton("Add line");
+		filler.add(btnAddLine, "grow, split 2");
+		
+		btnRemLine = new JButton("Remove line");
+		filler.add(btnRemLine, "grow");
 
 		btnConfirm = new JButton("Confirm");
 		filler.add(btnConfirm, "grow");
@@ -112,6 +118,8 @@ public class InsertWindow extends JFrame implements ActionListener,
 		btnPlus.addActionListener(this);
 		btnMinus.addActionListener(this);
 		btnInsert.addActionListener(this);
+		btnAddLine.addActionListener(this);
+		btnRemLine.addActionListener(this);
 		btnConfirm.addActionListener(this);
 		tblReceipt.getModel().addTableModelListener(new TableModelListener() {
 			@Override
@@ -147,6 +155,12 @@ public class InsertWindow extends JFrame implements ActionListener,
 			for (int i = 0; i < compos.length; i++)
 				keeper.add(0, compos[i], 0);
 			keeper.add(0,  "", 0); //white line
+		} else if (e.getSource() == btnAddLine) {
+			keeper.add(0, "", 0);
+		} else if (e.getSource() == btnRemLine) {
+			int row = tblReceipt.getSelectedRow();
+			if (row != -1)
+				keeper.remove(row);
 		} else if (e.getSource() == btnConfirm) {
 			int number = logic.storeKeeper(keeper);
 			JOptionPane.showMessageDialog(this, "Number: " + number);

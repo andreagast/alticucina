@@ -21,6 +21,11 @@ public class ReceiptKeeper {
 		model.fireTableDataChanged();
 	}
 	
+	public void remove(int row) {
+		list.remove(row);
+		model.fireTableDataChanged();
+	}
+	
 	public int getSize() {
 		return list.size();
 	}

@@ -14,7 +14,6 @@ public class DecimalCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	protected void setValue(Object arg0) {
-		System.out.println(arg0);
 		if (arg0 == null)
 			setText("");
 		else
