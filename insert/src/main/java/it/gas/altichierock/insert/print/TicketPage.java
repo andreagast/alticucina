@@ -38,11 +38,9 @@ public class TicketPage implements Printable {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.translate(pf.getImageableX(), pf.getImageableY());
 		int start = pageIndex * linesPerPage;
-		if (pageIndex != 0)
-			start--;
 		int y = 0;
 		for (int i = 0; i <= linesPerPage; i++) {
-			System.out.println("Ciclo! " + pageIndex + ":" + i);
+			//System.out.println("Ciclo! " + pageIndex + ":" + i);
 			y += lineHeight;
 			if (pageIndex == 0 && i == 0) {
 				g.drawString("Ticket n. " + ticket.getTicketid(), 0, y);
@@ -55,7 +53,7 @@ public class TicketPage implements Printable {
 					String qty = tc.getQuantity() == 0 ? "" : Integer
 							.toString(tc.getQuantity());
 					String descr = tc.getDescription();
-					System.out.println(descr);
+					//System.out.println(descr);
 					String price = tc.getPrice() == 0 ? "" : format.format(tc
 							.getPrice());
 					g.drawString(qty + "\t" + descr + "\t" + price, 0, y);
