@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import net.miginfocom.swing.MigLayout;
 
 public class OrderBox extends JComponent implements ActionListener {
@@ -23,6 +25,7 @@ public class OrderBox extends JComponent implements ActionListener {
 	private Ticket order;
 	private JButton btnCompleted;
 	private JLabel lblId;
+	private JPanel content;
 	
 	private List<OrderBoxListener> listeners;
 	
@@ -35,7 +38,7 @@ public class OrderBox extends JComponent implements ActionListener {
 	}
 	
 	private void initComponents() {
-		setLayout(new MigLayout("fill, wrap"));
+		setLayout(new MigLayout());
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		//NORTH
@@ -64,6 +67,14 @@ public class OrderBox extends JComponent implements ActionListener {
 		
 		btnCompleted = new JButton("Order completed");
 		bottom.add(btnCompleted, "south");
+		
+		//CENTER
+		content = new JPanel(new MigLayout("fill, wrap"));
+		content.setBackground(Color.WHITE);
+		JScrollPane scroll = new JScrollPane(content);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		add(scroll, "grow, push");
 	}
 	
 	private void initListeners() {
@@ -77,10 +88,10 @@ public class OrderBox extends JComponent implements ActionListener {
 			String quantity = "";
 			if (tc.getQuantity() != 0)
 				quantity = Integer.toString(tc.getQuantity());
-			add(new JLabel(quantity), "split 2");
-			add(new JLabel(tc.getDescription()), "growx");
+			content.add(new JLabel(quantity), "split 2");
+			content.add(new JLabel(tc.getDescription()), "growx");
 		}
-		add(Box.createGlue(), "push, grow");
+		content.add(Box.createGlue(), "push, grow");
 	}
 	
 	public int getId() {
