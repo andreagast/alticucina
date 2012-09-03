@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.gas.altichierock</groupId>
 	<artifactId>mainApp</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 
 	<dependencies>
 		<dependency>
@@ -19,12 +19,12 @@
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
 			<artifactId>insert</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
 			<artifactId>order</artifactId>
-			<version>0.0.2</version>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>it.gas.altichierock</groupId>
