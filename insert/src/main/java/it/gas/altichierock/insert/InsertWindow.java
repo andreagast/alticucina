@@ -1,6 +1,7 @@
 package it.gas.altichierock.insert;
 
 import it.gas.altichierock.database.entities.Product;
+import it.gas.altichierock.database.entities.Ticket;
 import it.gas.altichierock.insert.ProductPanel.OnSelectionListener;
 
 import java.awt.Frame;
@@ -162,8 +163,9 @@ public class InsertWindow extends JFrame implements ActionListener,
 			if (row != -1)
 				keeper.remove(row);
 		} else if (e.getSource() == btnConfirm) {
-			int number = logic.storeKeeper(keeper);
-			JOptionPane.showMessageDialog(this, "Number: " + number);
+			Ticket t = logic.storeKeeper(keeper);
+			JOptionPane.showMessageDialog(this, "Number: " + t.getTicketid());
+			logic.print(t);
 			keeper.clear();
 			lblTotalPrice.setText("€ 0.00");
 		}

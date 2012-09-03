@@ -4,7 +4,10 @@ import it.gas.altichierock.database.DatabaseHandler;
 import it.gas.altichierock.database.entities.Product;
 import it.gas.altichierock.database.entities.Ticket;
 import it.gas.altichierock.database.entities.TicketContent;
+import it.gas.altichierock.insert.print.TicketPage;
 
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
@@ -35,11 +38,12 @@ public class InsertLogic {
 				Product.class);
 		return query.getResultList();
 	}
-	
-	public int storeKeeper(ReceiptKeeper rk) {
+
+	public Ticket storeKeeper(ReceiptKeeper rk) {
 		tx.begin();
-		//get the id
-		TypedQuery<Integer> query = em.createNamedQuery("order.maxidtoday", Integer.class);
+		// get the id
+		TypedQuery<Integer> query = em.createNamedQuery("order.maxidtoday",
+				Integer.class);
 		Integer id;
 		try {
 			id = query.getSingleResult();
@@ -50,26 +54,45 @@ public class InsertLogic {
 		} catch (NoResultException e) {
 			id = 1;
 		}
-		//get the time
+		// get the time
 		long d = System.currentTimeMillis();
-		//make the ticket
+		// make the ticket
 		Ticket t = new Ticket();
 		t.setTicketid(id);
 		t.setCreateDate(new Date(d));
 		t.setCreateTime(new Time(d));
-		//hoping for tha best! now with the rest
+		// hoping for tha best! now with the rest
 		for (int i = 0; i < rk.getSize(); i++) {
 			TicketContent tc = new TicketContent();
 			tc.setLineNumber(i);
 			tc.setQuantity(rk.getQuantity(i));
 			tc.setDescription(rk.getDescription(i));
 			tc.setPrice(rk.getPrice(i));
-			em.persist(tc); //content
+			em.persist(tc); // content
 			t.getContent().add(tc);
 		}
-		em.persist(t); //ticket
+		em.persist(t); // ticket
 		tx.commit();
-		return id;
+		return t;
+	}
+
+	public void print(Ticket t) {
+		TicketPage page = new TicketPage(t);
+		PrinterJob job = PrinterJob.getPrinterJob();
+		job.setPrintable(page);
+		boolean doPrint = job.printDialog();
+
+		try {
+			if (doPrint) {
+				job.print();
+				log.debug("Printing ticket ID " + t.getId());
+			} else {
+				log.debug("Printing cancelled for ID " + t.getId());
+			}
+		} catch (PrinterException e) {
+			log.error("Something went wrong printing ID " + t.getId(), e);
+		}
+
 	}
 
 }
