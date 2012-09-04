@@ -66,7 +66,6 @@ public class OrderWindow extends JFrame implements OrderBoxListener, Runnable {
 		new Thread(new Runnable() {
 			public void run() {
 				//move it out of eventQueue. hoping not to get race condition.
-				System.out.println(Thread.currentThread().getName());
 				logic.markAsCompleted(ob.getTicket());
 			}
 		}).start();
