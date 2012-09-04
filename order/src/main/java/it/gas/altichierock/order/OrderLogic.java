@@ -13,18 +13,20 @@ public class OrderLogic {
 	private DatabaseHandler dh;
 	private EntityManager em;
 	private EntityTransaction tx;
-	
+
 	public OrderLogic() {
 		dh = DatabaseHandler.getInstance();
 		em = dh.getEntityManager();
 		tx = dh.getTransaction();
 	}
-	
+
 	public List<Ticket> getNonCompletedOrders() {
-		TypedQuery<Ticket> q = em.createNamedQuery("order.notcomplete", Ticket.class);
+		TypedQuery<Ticket> q = em.createNamedQuery("order.notcomplete",
+				Ticket.class);
+		q.setMaxResults(10); // limit to first 10 results
 		return q.getResultList();
 	}
-	
+
 	public void markAsCompleted(Ticket t) {
 		tx.begin();
 		t.setCompleted(true);

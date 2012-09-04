@@ -88,7 +88,7 @@ public class OrderWindow extends JFrame implements OrderBoxListener, Runnable {
 	public void run() {
 		try {
 			while (!Thread.interrupted()) {
-				//max 10 boxes on the screen
+				//if we're full, there's no reason to query again
 				if (boxes.size() < 10) {
 					// retrieve the orders not completed
 					List<Ticket> l = logic.getNonCompletedOrders();
@@ -110,10 +110,11 @@ public class OrderWindow extends JFrame implements OrderBoxListener, Runnable {
 	private void addOrder(final List<Ticket> l) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				int maxToAdd = 10 - boxes.size(); //no more than 10 boxes!
-				if (l.size() < maxToAdd)
-					maxToAdd = l.size();
-				for (int i = 0; i < maxToAdd; i++) {
+				//int maxToAdd = 10 - boxes.size(); //no more than 10 boxes!
+				//if (l.size() < maxToAdd)
+					//maxToAdd = l.size();
+				//for (int i = 0; i < maxToAdd; i++) {
+				for (int i = 0; i < l.size(); i++) {
 					OrderBox ob = makeOrderBox(l.get(i));
 					boxes.add(ob); // ADD IT TO THE LIST!
 					add(ob, "grow, height 50%:75%:100%");
