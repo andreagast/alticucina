@@ -18,12 +18,22 @@ import org.slf4j.LoggerFactory;
 public class TicketPage implements Printable {
 	private static final int HEADER_ROWS = 3;
 	private static final int FOOTER_ROWS = 2;
-	private Ticket ticket;
 	private DecimalFormat format;
 	private Logger log = LoggerFactory.getLogger(TicketPage.class);
+	
+	private Ticket ticket;
+	private double totalPrice;
 
 	public TicketPage(Ticket t) {
+		if (t == null)
+			throw new NullPointerException();
 		this.ticket = t;
+		totalPrice = 0;
+		for (int i = 0; i < t.getContent().size(); i++) {
+			TicketContent tc = t.getContent().get(i);
+			double temp = tc.getQuantity() * tc.getPrice();
+			totalPrice += temp;
+		}
 		this.format = new DecimalFormat("0.00");
 	}
 
@@ -70,7 +80,7 @@ public class TicketPage implements Printable {
 			} else if (pageIndex == totalPages - 1 && i == thisLines - 2) {
 				g.drawString("--------", 0, y);
 			} else if (pageIndex == totalPages - 1 && i == thisLines - 1) {
-				g.drawString("TOTAL:", 0, y);
+				g.drawString("TOTAL: € " + format.format(totalPrice), 0, y);
 			} else {
 				// draw content
 				try {
