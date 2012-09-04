@@ -60,16 +60,24 @@ public class OrderWindow extends JFrame implements OrderBoxListener, Runnable {
 	}
 
 	@Override
-	public void orderCompleted(OrderBox ob) {
+	public void orderCompleted(final OrderBox ob) {
 		remove(ob);
 		boxes.remove(ob);
-		logic.markAsCompleted(ob.getTicket());
+		new Thread(new Runnable() {
+			public void run() {
+				//move it out of eventQueue. hoping not to get race condition.
+				System.out.println(Thread.currentThread().getName());
+				logic.markAsCompleted(ob.getTicket());
+			}
+		}).start();
 		// if there's no subcomponent, validate does nothing,
 		// leaving the last box (just removed) draw on the screen
-		if (boxes.size() == 0)
+		if (boxes.size() == 0) {
 			this.repaint();
-		else
+		} else {
+			invalidate();
 			validate();
+		}
 	}
 
 	private void startThread() {
@@ -98,7 +106,7 @@ public class OrderWindow extends JFrame implements OrderBoxListener, Runnable {
 					// display the new ones
 					addOrder(l);
 				}
-				Thread.sleep(5000);
+				Thread.sleep(2500);
 			}
 		} catch (InterruptedException e) {
 			// we're closing, say goodbye!
@@ -119,6 +127,7 @@ public class OrderWindow extends JFrame implements OrderBoxListener, Runnable {
 					boxes.add(ob); // ADD IT TO THE LIST!
 					add(ob, "grow, height 50%:75%:100%");
 				}
+				invalidate();
 				validate();
 			}
 		});
