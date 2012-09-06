@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 @Entity
 @NamedQueries({
@@ -36,6 +37,7 @@ public class Ticket implements Serializable {
 	private String note;
 	@OneToMany
 	@JoinColumn(name = "ticketid")
+	@OrderBy("lineNumber")
 	private List<TicketContent> content;
 	
 	public Ticket() {
