@@ -42,34 +42,35 @@ public class MainWindow extends JFrame implements ActionListener {
 		super();
 		setTitle(Constants.TITLE);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		initComponents(); //drawing code
+		initComponents(); // drawing code
 		initListeners();
 		pack();
 		setLocationRelativeTo(null);
-		
+
 		lock(true);
 	}
-	
+
 	private void initComponents() {
 		setLayout(new MigLayout());
 
-		//draw'n'stuff
+		// draw'n'stuff
 		btnInsert = new JButton("Make a new order!");
 		btnAdd = new JButton("+");
 		btnOrder = new JButton("Show orders");
 		btnDisplay = new JButton("Display");
-		
+
 		JPanel pnlCentered = new JPanel(new MigLayout());
 		add(pnlCentered, "push, align center");
-		
+
 		JLabel lblTitle = new JLabel(Constants.TITLE);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font(lblTitle.getFont().getFamily(), Font.BOLD, 48));
-		
+
 		JLabel lblTwitter = new JLabel(Constants.TWITTER);
 		lblTwitter.setHorizontalAlignment(SwingConstants.CENTER);
-		//lblTwitter.setFont(new Font(lblTitle.getFont().getFamily(), Font.PLAIN, 10));
-		
+		// lblTwitter.setFont(new Font(lblTitle.getFont().getFamily(),
+		// Font.PLAIN, 10));
+
 		pnlCentered.add(lblTitle, "growx, wrap");
 		pnlCentered.add(lblTwitter, "growx, wrap");
 		pnlCentered.add(btnInsert, "split 2, growx");
@@ -77,43 +78,46 @@ public class MainWindow extends JFrame implements ActionListener {
 		pnlCentered.add(btnOrder, "split 2, growx, wrap");
 		pnlCentered.add(btnDisplay, "growx");
 	}
-	
+
 	private void initListeners() {
-		//working code
+		// working code
 		btnInsert.addActionListener(this);
 		btnAdd.addActionListener(this);
 		btnOrder.addActionListener(this);
 		btnDisplay.addActionListener(this);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {
-				//lock the module and start the loading
+				// lock the module and start the loading
 				lock(true);
 				new DBLoader().execute();
 			}
 		});
 	}
-	
+
 	private void lock(boolean b) {
 		btnInsert.setEnabled(!b);
 		btnAdd.setEnabled(!b);
 		btnOrder.setEnabled(!b);
 		btnDisplay.setEnabled(!b);
 	}
-	
+
 	private void showMessage(String str) {
-		//JOptionPane.showMessageDialog(this, str);
-		Object[] options = {"OK", "Configure..."};
+		// JOptionPane.showMessageDialog(this, str);
+		Object[] options = { "OK", "Configure..." };
 		int res = JOptionPane.showOptionDialog(this, str, Constants.TITLE,
 				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[0]);
 		if (res == JOptionPane.NO_OPTION) {
-			String ip = JOptionPane.showInputDialog(this, "Insert the new db address:", Constants.TITLE, JOptionPane.QUESTION_MESSAGE);
-			if (ip == null) //dialog cancelled
+			String ip = JOptionPane.showInputDialog(this,
+					"Insert the new db address:", Constants.TITLE,
+					JOptionPane.QUESTION_MESSAGE);
+			if (ip == null) // dialog cancelled
 				return;
 			Properties p = new Properties();
-			p.put("database.ip", ip);
+			p.setProperty("database.ip", ip);
+			p.setProperty("database.port", Integer.toString(1527));
 			File f = new File("altichierock.properties");
 			try {
 				p.store(new FileOutputStream(f), "Use the program!");
@@ -122,7 +126,11 @@ public class MainWindow extends JFrame implements ActionListener {
 			} catch (IOException e) {
 				log.error("Can't access properties.", e);
 			}
-			JOptionPane.showMessageDialog(this, "Done. Next time this program shuld use\nthe new settings.", Constants.TITLE, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane
+					.showMessageDialog(
+							this,
+							"Done. Next time this program shuld use\nthe new settings.",
+							Constants.TITLE, JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 
@@ -138,8 +146,8 @@ public class MainWindow extends JFrame implements ActionListener {
 			new DisplayWindow(this).setVisible(true);
 		}
 	}
-	
-	//initialize the DB
+
+	// initialize the DB
 	private class DBLoader extends SwingWorker<Void, Void> {
 
 		@Override
@@ -155,18 +163,16 @@ public class MainWindow extends JFrame implements ActionListener {
 				lock(false);
 			} catch (ExecutionException e) {
 				log.error("Something went wrong during db instancing.", e);
-				showMessage("Huh oh, there's a problem with the DB.\n" +
-						"Check the server and try again.");
+				showMessage("Huh oh, there's a problem with the DB.\n"
+						+ "Check the server and try again.");
 				dispose();
 			} catch (InterruptedException e) {
-				//it should never happen...
-				log.error("Something interrupted our db loading.", e);
+				// it should never happen...
+				log.error("Something interrupted our DB loading.", e);
 				dispose();
 			}
 		}
-		
-		
-		
+
 	}
-	
+
 }

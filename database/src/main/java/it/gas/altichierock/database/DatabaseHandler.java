@@ -19,50 +19,51 @@ import org.slf4j.LoggerFactory;
 public class DatabaseHandler {
 	private static DatabaseHandler INSTANCE;
 	private Logger log = LoggerFactory.getLogger(DatabaseHandler.class);
-	
+
 	private EntityManager em;
 	private EntityTransaction tx;
-	
+
 	public static DatabaseHandler getInstance() {
 		if (INSTANCE == null)
 			INSTANCE = new DatabaseHandler();
 		return INSTANCE;
 	}
-	
+
 	private DatabaseHandler() {
-		//TODO total shit!
-		//retrieve the ip of the server
+		// TODO total shit!
+		// retrieve the ip and port of the server
 		Properties p = new Properties();
 		try {
 			File f = new File("altichierock.properties");
 			log.debug(f.getCanonicalPath());
 			p.load(new FileInputStream(f));
 		} catch (FileNotFoundException e) {
-			//no problem, we default to localhost
+			// no problem, we default to localhost
 			log.error("File not found, defaulting!", e);
-			p.put("database.ip", "localhost");
 		} catch (IOException e) {
 			log.error("There was a problem reading the properties.", e);
-			p.put("database.ip", "localhost");
 		}
-		//connect
+		// connect
 		StringBuilder url = new StringBuilder();
 		url.append("jdbc:derby://");
-		url.append(p.getProperty("database.ip"));
-		url.append(":1527/altichierock;create=true");
+		url.append(p.getProperty("database.ip", "localhost"));
+		url.append(":");
+		url.append(Integer.valueOf(p.getProperty("database.port", "1527")));
+		url.append("/altichierock;create=true");
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("javax.persistence.jdbc.url", url.toString());
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("altichierockPU", map);
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory(
+				"altichierockPU", map);
 		em = emf.createEntityManager();
 		tx = em.getTransaction();
 	}
-	
+
 	public EntityManager getEntityManager() {
 		return em;
 	}
-	
+
 	public EntityTransaction getTransaction() {
 		return tx;
 	}
-	
+
 }
