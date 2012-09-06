@@ -59,10 +59,10 @@ public class AddWindow extends JFrame implements ActionListener {
 		btnRefresh = new JButton("><");
 
 		add(new JScrollPane(tblMenu), "push, grow, spany 4");
-		add(btnAdd, "wrap, pushy");
-		add(btnEdit, "wrap, pushy");
-		add(btnDelete, "wrap, pushy");
-		add(btnRefresh, "pushy");
+		add(btnAdd, "wrap, pushy, growx");
+		add(btnEdit, "wrap, pushy, growx");
+		add(btnDelete, "wrap, pushy, growx");
+		add(btnRefresh, "pushy, growx");
 	}
 
 	private void initListeners() {

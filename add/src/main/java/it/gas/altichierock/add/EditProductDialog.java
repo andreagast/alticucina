@@ -62,9 +62,9 @@ public class EditProductDialog extends JDialog implements ActionListener {
 		tblComponents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		add(new JScrollPane(tblComponents), "grow, push, spany 2");
 		btnAdd = new JButton("+");
-		add(btnAdd, "wrap, pushy");
+		add(btnAdd, "wrap, pushy, growx");
 		btnRemove = new JButton("X");
-		add(btnRemove, "pushy");
+		add(btnRemove, "pushy, growx");
 	}
 
 	private void initListeners() {
